@@ -12,20 +12,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'res.cloudinary.com',
+        hostname: 'cdn-descontolegal.caama.org.br',
       },
       {
         protocol: 'https',
-        hostname: 'qanmwxigdrattiyugnyp.supabase.co',
-      },
-      {
-        protocol: 'https',
-        hostname: 'supabase.hit.dev.br',
-      },
-      {
-        protocol: 'https',
-        hostname: 'storage.hit.dev.br',
-      },
+        hostname: 'cdn-descontolegal-dev.caama.org.br',
+      }
     ],
     qualities: [50, 75, 100],
   },

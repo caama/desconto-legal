@@ -9,10 +9,11 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "pnpm prisma migrate deploy && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "biome check",
     "postinstall": "pnpm prisma generate",
+    "migrate:deploy": "prisma migrate deploy",
     "format": "biome format --write",
     "prisma:dev": "pnpm prisma migrate dev && pnpm prisma generate"
   },
