@@ -3,6 +3,7 @@
 import { Save } from 'lucide-react'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
+import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
 import type { User } from '@/@types/next-auth'
 import { Badge } from '@/components/ui/badge'
@@ -49,14 +50,14 @@ export function ProfileContent({ user }: ProfileContentProps) {
     <div className="mx-auto">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleUpdateProfile)}>
-          <Card className="mx-auto mt-8 md:mt-20 lg:max-w-3xl">
+          <Card className="mx-auto mt-8 lg:max-w-7xl">
             <CardHeader>
-              <CardTitle>Meu Perfil</CardTitle>
-              <CardDescription>Atualize suas informações de perfil.</CardDescription>
+              <CardTitle className="font-bold text-lg md:text-2xl">Meu Perfil</CardTitle>
+              <CardDescription className="text-sm md:text-base">Atualize suas informações de perfil.</CardDescription>
             </CardHeader>
 
             <CardContent className="space-y-6">
-              <div className="relative mx-auto flex h-25 w-25 overflow-hidden rounded-full border-2 border-primary md:h-32 md:w-32">
+              <div className="relative mx-auto flex h-25 w-25 overflow-hidden rounded-full border-2 border-primary md:h-42 md:w-42">
                 <Image
                   src={user.image || ''}
                   alt={user.name || ''}
@@ -117,8 +118,17 @@ export function ProfileContent({ user }: ProfileContentProps) {
               </div>
 
               <Button type="submit" className="mt-2 w-full bg-linear-to-r from-primary to-sky-600">
-                <Save />
-                Salvar
+                {form.formState.isSubmitting ? (
+                  <>
+                    <ImSpinner2 className="animate-spin" />
+                    Salvando...
+                  </>
+                ) : (
+                  <>
+                    <Save className="size-4" />
+                    Salvar alterações
+                  </>
+                )}
               </Button>
             </CardContent>
           </Card>
