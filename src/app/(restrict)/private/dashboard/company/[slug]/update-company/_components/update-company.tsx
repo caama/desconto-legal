@@ -1,7 +1,7 @@
 'use client'
 
 import { useQueryClient } from '@tanstack/react-query'
-import { Building2, CalendarClock, FileText, Hash, LocateFixed, Mail, MapPin, Save, User } from 'lucide-react'
+import { ArrowLeft, Building2, CalendarClock, FileText, Hash, LocateFixed, Mail, MapPin, Save, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FaInstagram, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa'
@@ -102,6 +102,15 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
               Edite os dados ou atualize a logo da empresa selecionada
             </CardDescription>
           </div>
+
+          <Button
+            variant="ghost"
+            className="group flex items-center gap-2 font-bold text-muted hover:bg-transparent hover:text-muted md:text-base"
+            onClick={() => router.back()}
+          >
+            <ArrowLeft className="group-hover:-translate-x-1 size-4 text-muted transition-transform duration-200" />
+            Voltar
+          </Button>
         </CardHeader>
 
         <CardContent>
