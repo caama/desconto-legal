@@ -64,11 +64,11 @@ export function UserContent() {
   }
 
   return (
-    <main className="mx-auto max-w-7xl">
-      <Card className="mx-auto mt-8 lg:max-w-7xl">
+    <main className="mx-auto">
+      <Card className="mx-auto mt-8">
         <CardHeader>
-          <CardTitle>Gerenciamento de Usuários</CardTitle>
-          <CardDescription>Gerencie todos os usuários do sistema</CardDescription>
+          <CardTitle className="font-bold text-lg md:text-2xl">Gerenciamento de Usuários</CardTitle>
+          <CardDescription className="text-sm md:text-base">Gerencie todos os usuários do sistema</CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-3 overflow-x-auto">

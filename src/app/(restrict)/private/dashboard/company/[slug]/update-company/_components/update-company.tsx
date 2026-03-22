@@ -1,7 +1,7 @@
 'use client'
 
 import { useQueryClient } from '@tanstack/react-query'
-import { Building2, CalendarClock, FileText, Hash, LocateFixed, Mail, MapPin, Save, User } from 'lucide-react'
+import { ArrowLeft, Building2, CalendarClock, FileText, Hash, LocateFixed, Mail, MapPin, Save, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FaInstagram, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa'
@@ -14,6 +14,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { DatePicker } from '@/components/ui/datapicker'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { RichTextEditor } from '@/components/ui/rich-text-editor'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import type { Category, City, Company } from '@/generated/prisma/client'
@@ -22,7 +23,6 @@ import { formatCNPJ } from '@/utils/format-cnpj'
 import { formatPhone } from '@/utils/format-phone'
 import { formatWhatsapp } from '@/utils/format-whatsapp'
 import { onlyNumbers } from '@/utils/only-numbers'
-import { RichTextEditor } from '@/components/ui/rich-text-editor'
 import { updateCompany } from '../../../_actions/update-company'
 import { AvatarCompanyUpdate } from './avatar-company-update'
 // import { AvatarCompanyUpdate } from './avatar-company-update'
@@ -93,14 +93,25 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-7xl flex-col p-4">
+    <main className="mx-auto flex min-h-screen flex-col p-4">
       <Card className="pt-0">
         <CardHeader className="flex flex-col rounded-t-xl bg-linear-to-r from-primary to-sky-600 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-2">
-            <CardTitle className="font-semibold text-muted text-xl">{company.name}</CardTitle>
-
-            <CardDescription className="text-muted">Edite os dados ou atualize a logo da empresa selecionada</CardDescription>
+            <CardTitle className="font-bold text-lg text-muted md:text-2xl">{company.name}</CardTitle>
+            <CardDescription className="text-muted text-sm md:text-base">
+              Edite os dados ou atualize a logo da empresa selecionada
+            </CardDescription>
           </div>
+
+          <Button
+            variant="ghost"
+            type="button"
+            className="group ml-auto flex items-center gap-2 font-bold text-muted hover:bg-transparent hover:text-muted sm:ml-0 md:text-base"
+            onClick={() => router.back()}
+          >
+            <ArrowLeft className="group-hover:-translate-x-1 size-4 text-muted transition-transform duration-200" />
+            Voltar
+          </Button>
         </CardHeader>
 
         <CardContent>

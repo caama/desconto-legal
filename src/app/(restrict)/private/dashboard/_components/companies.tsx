@@ -1,9 +1,10 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { Edit2, Inbox, MapPin, Star } from 'lucide-react'
+import { Edit2, Inbox, Loader2, MapPin, Star } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useTransition } from 'react'
 import { z } from 'zod'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -39,6 +40,9 @@ export function Companies() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
+  const [editingCompanySlug, setEditingCompanySlug] = useState<string | null>(null)
+  const [isPending, startTransition] = useTransition()
+
   const page = z.coerce.number().parse(searchParams.get('page') || '1')
   const name = searchParams.get('name') || ''
   const city = searchParams.get('city') || ''
@@ -70,12 +74,24 @@ export function Companies() {
     router.push(`?${params.toString()}`)
   }
 
+  function handleEditCompany(slug: string) {
+    setEditingCompanySlug(slug)
+
+    startTransition(() => {
+      router.push(`/private/dashboard/company/${slug}/update-company`)
+    })
+  }
+
+  function handlePrefetchEditCompany(slug: string) {
+    router.prefetch(`/private/dashboard/company/${slug}/update-company`)
+  }
+
   return (
-    <main className="mx-auto max-w-7xl">
-      <Card className="mx-auto mt-8 lg:max-w-7xl">
+    <main className="mx-auto">
+      <Card className="mx-auto mt-8">
         <CardHeader>
-          <CardTitle>Gerenciamento de Empresas</CardTitle>
-          <CardDescription>Gerencie todos as empresas do sistema</CardDescription>
+          <CardTitle className="font-bold text-lg md:text-2xl">Gerenciamento de Empresas</CardTitle>
+          <CardDescription className="text-sm md:text-base">Gerencie todos as empresas do sistema</CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-3 overflow-x-auto">
@@ -186,15 +202,24 @@ export function Companies() {
                         {/* Actions */}
                         <TableCell className="px-6 py-4">
                           <div className="flex items-center justify-center gap-2">
-                            {/* Componente de edição */}
+                            {/* Envia o usuário para a página de edição */}
                             <Button
                               variant="outline"
                               size="icon"
                               className="hover:bg-muted"
-                              onClick={() => router.push(`/private/dashboard/company/${company.slug}/update-company`)}
+                              disabled={isPending && editingCompanySlug === company.slug}
+                              onClick={() => handleEditCompany(company.slug)}
+                              onMouseEnter={() => handlePrefetchEditCompany(company.slug)}
+                              onFocus={() => handlePrefetchEditCompany(company.slug)}
                             >
-                              <Edit2 className="size-4" />
-                              <span className="sr-only">Editar</span>
+                              {isPending && editingCompanySlug === company.slug ? (
+                                <Loader2 className="size-4 animate-spin" />
+                              ) : (
+                                <Edit2 className="size-4" />
+                              )}
+                              <span className="sr-only">
+                                {isPending && editingCompanySlug === company.slug ? 'Abrindo edição' : 'Editar'}
+                              </span>
                             </Button>
 
                             {/* Componente de inativação */}

@@ -19,13 +19,14 @@
     "rules": {
       "complexity": "off",
       "recommended": true,
-      "correctness": {
-        "useUniqueElementIds": "off"
-      },
       "suspicious": {
         "noShadowRestrictedNames": "off",
         "noExplicitAny": "off",
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "noUnknownAtRules": "off"
+      },
+      "correctness": {
+        "noUnknownProperty": "off"
       },
       "nursery": {
         "useSortedClasses": {

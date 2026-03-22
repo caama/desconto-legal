@@ -11,9 +11,5 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
-  },
-  "explorer.compactFolders": false,
-  "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
   }
 }

@@ -19,7 +19,7 @@ import { SidebarLink } from './sidebar-link'
 export function SidebarDashboard({ children }: { children: React.ReactNode }) {
   const { data: session, update } = useSession()
 
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(true)
   const [isSheetOpen, setIsSheetOpen] = useState(false)
 
   const router = useRouter()
@@ -36,7 +36,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
     <main className="flex min-h-screen w-full">
       {/* Menu Sidebar Desktop */}
       <aside
-        className={cn('flex h-full flex-col border-r bg-background p-4 transition-all duration-300', {
+        className={cn('flex h-full flex-col border-r bg-background p-4 z-50 transition-all duration-300', {
           'w-20': isCollapsed,
           'w-68': !isCollapsed,
           'hidden md:fixed md:flex md:items-center': true,

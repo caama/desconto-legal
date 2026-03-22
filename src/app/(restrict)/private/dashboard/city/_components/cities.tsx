@@ -59,12 +59,12 @@ export function CitiesContent() {
   }
 
   return (
-    <main className="mx-auto max-w-7xl">
-      <Card className="mx-auto mt-8 lg:max-w-7xl">
+    <main className="mx-auto">
+      <Card className="mx-auto mt-8">
         <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-2">
-            <CardTitle>Gerenciamento de Cidades</CardTitle>
-            <CardDescription>Gerencie todas as cidades do sistema</CardDescription>
+            <CardTitle className="font-bold text-lg md:text-2xl">Gerenciamento de Cidades</CardTitle>
+            <CardDescription className="text-sm md:text-base">Gerencie todas as cidades do sistema</CardDescription>
           </div>
 
           {/* Componente de Nova Cidade  */}

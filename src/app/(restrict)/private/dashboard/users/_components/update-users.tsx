@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Edit2, Save } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
+import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -138,8 +139,17 @@ export function UpdateUsers({ user }: UpdateUsersProps) {
               </DialogClose>
 
               <Button type="submit" size="sm" className="rounded-sm md:w-[50%]">
-                <Save className="size-4" />
-                Salvar alterações
+                {form.formState.isSubmitting ? (
+                  <>
+                    <ImSpinner2 className="animate-spin" />
+                    Salvando...
+                  </>
+                ) : (
+                  <>
+                    <Save className="size-4" />
+                    Salvar alterações
+                  </>
+                )}
               </Button>
             </DialogFooter>
           </form>
