@@ -74,8 +74,8 @@ export function Companies() {
     <main className="mx-auto">
       <Card className="mx-auto mt-8">
         <CardHeader>
-          <CardTitle>Gerenciamento de Empresas</CardTitle>
-          <CardDescription>Gerencie todos as empresas do sistema</CardDescription>
+          <CardTitle className="font-bold text-lg md:text-2xl">Gerenciamento de Empresas</CardTitle>
+          <CardDescription className="text-sm md:text-base">Gerencie todos as empresas do sistema</CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-3 overflow-x-auto">
