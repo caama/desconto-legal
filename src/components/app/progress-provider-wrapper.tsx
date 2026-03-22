@@ -1,6 +1,6 @@
 'use client'
 
-import { AppProgressProvider as ProgressProvider } from '@bprogress/next'
+import { ProgressProvider } from '@bprogress/next/app'
 
 export function ProgressProviderWrapper({ children }: { children: React.ReactNode }) {
   return (

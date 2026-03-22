@@ -2,7 +2,7 @@
 
 import { type Editor, EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { Bold, Heading1, Heading2, Heading3, Italic, List, ListOrdered, Quote, Redo, Strikethrough, Undo } from 'lucide-react'
+import { Bold, Heading1, Heading2, Heading3, Italic, List, ListOrdered, Strikethrough } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { Toggle } from '@/components/ui/toggle'
 
@@ -81,18 +81,6 @@ const EditorToolbar = ({ editor }: { editor: Editor }) => {
       <ToolbarButton isActive={editor.isActive('orderedList')} onClick={() => editor.chain().focus().toggleOrderedList().run()}>
         <ListOrdered className="h-4 w-4" />
       </ToolbarButton>
-      <ToolbarButton isActive={editor.isActive('blockquote')} onClick={() => editor.chain().focus().toggleBlockquote().run()}>
-        <Quote className="h-4 w-4" />
-      </ToolbarButton>
-
-      <Separator orientation="vertical" className="mx-1 h-8" />
-
-      <ToolbarButton onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()}>
-        <Undo className="h-4 w-4" />
-      </ToolbarButton>
-      <ToolbarButton onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().chain().focus().redo().run()}>
-        <Redo className="h-4 w-4" />
-      </ToolbarButton>
     </div>
   )
 }
@@ -105,7 +93,7 @@ export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
     editorProps: {
       attributes: {
         class:
-          'min-h-[150px] w-full rounded-b-lg border border-t-0 bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 prose prose-sm sm:prose-base dark:prose-invert max-w-none',
+          'min-h-[150px] w-full rounded-b-lg  bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 prose prose-sm sm:prose-base dark:prose-invert max-w-none',
       },
     },
     onUpdate: ({ editor }) => {
@@ -118,7 +106,7 @@ export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
   }
 
   return (
-    <div className="flex w-full flex-col rounded-lg border focus-within:ring-1 focus-within:ring-primary">
+    <div className="flex w-full flex-col rounded-lg border">
       <EditorToolbar editor={editor} />
       <EditorContent editor={editor} className="h-full w-full p-2" />
     </div>
