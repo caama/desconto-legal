@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FaInstagram, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa'
 import { ImSpinner2 } from 'react-icons/im'
-import { RiPercentFill } from 'react-icons/ri'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -18,8 +17,8 @@ import { RichTextEditor } from '@/components/ui/rich-text-editor'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import type { Category, City, Company } from '@/generated/prisma/client'
+import { formatCompanyDocument } from '@/utils/company-document'
 import { formatCep } from '@/utils/format-cep'
-import { formatCNPJ } from '@/utils/format-cnpj'
 import { formatPhone } from '@/utils/format-phone'
 import { formatWhatsapp } from '@/utils/format-whatsapp'
 import { onlyNumbers } from '@/utils/only-numbers'
@@ -44,7 +43,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
   const form = useUpdateCompanyForm({
     id: company.id,
     name: company.name || '',
-    cnpj: company.cnpj || '',
+    document: company.cnpj || '',
     responsible: company.responsible || '',
     slug: company.slug || '',
     description: company.description || '',
@@ -156,20 +155,20 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
 
                   <FormField
                     control={form.control}
-                    name="cnpj"
+                    name="document"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          CNPJ <span className="mt-0.5 text-destructive">*</span>
+                          CPF ou CNPJ <span className="mt-0.5 text-destructive">*</span>
                         </FormLabel>
                         <FormControl>
                           <div className="relative">
                             <FileText className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
                             <Input
-                              placeholder="00.000.000/0000-00"
+                              placeholder="000.000.000-00 ou 00.000.000/0000-00"
                               className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
                               {...field}
-                              value={formatCNPJ(field.value ?? '')}
+                              value={formatCompanyDocument(field.value ?? '')}
                               onChange={e => {
                                 const rawValue = onlyNumbers(e.target.value)
                                 field.onChange(rawValue)
@@ -177,6 +176,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                             />
                           </div>
                         </FormControl>
+                        <FormDescription>O campo identifica automaticamente se o documento é CPF ou CNPJ.</FormDescription>
 
                         <FormMessage className="text-destructive text-xs" />
                       </FormItem>

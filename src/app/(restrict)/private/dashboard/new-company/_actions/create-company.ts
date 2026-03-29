@@ -4,30 +4,24 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { isValidCNPJ } from '@/utils/is-valid-cnpj'
+import { isValidCompanyDocument, normalizeCompanyDocument } from '@/utils/company-document'
 
 const newCompanyFormSchema = z
   .object({
     name: z.string().trim().nonempty({
       message: 'O nome é obrigatório',
     }),
-    cnpj: z
+    document: z
       .string()
       .trim()
-      .nonempty({ message: 'O CNPJ é obrigatório' })
-      .transform(value => value.replace(/\D/g, '').slice(0, 14)) // limita aqui
-      .refine(value => value.length === 14, {
-        message: 'CNPJ incompleto',
+      .nonempty({ message: 'O CPF ou CNPJ é obrigatório' })
+      .transform(normalizeCompanyDocument)
+      .refine(value => value.length === 11 || value.length === 14, {
+        message: 'CPF ou CNPJ incompleto',
       })
-      .refine(
-        value => {
-          if (value.length < 14) return true // não valida enquanto digita
-          return isValidCNPJ(value)
-        },
-        {
-          message: 'CNPJ inválido',
-        }
-      ),
+      .refine(isValidCompanyDocument, {
+        message: 'CPF ou CNPJ inválido',
+      }),
     responsible: z.string().trim().optional(),
     slug: z
       .string()
@@ -106,9 +100,11 @@ export async function createCompany(data: NewCompanyFormType) {
     }
   }
 
+  const { document, ...rest } = schema.data
+
   const [slugExists, cnpjExists] = await Promise.all([
-    prisma.company.findUnique({ where: { slug: data.slug } }),
-    prisma.company.findUnique({ where: { cnpj: data.cnpj } }),
+    prisma.company.findUnique({ where: { slug: rest.slug } }),
+    prisma.company.findUnique({ where: { cnpj: document } }),
   ])
 
   if (slugExists || cnpjExists) {
@@ -119,7 +115,12 @@ export async function createCompany(data: NewCompanyFormType) {
   }
 
   try {
-    await prisma.company.create({ data: schema.data })
+    await prisma.company.create({
+      data: {
+        ...rest,
+        cnpj: document,
+      },
+    })
 
     revalidatePath('/private/dashboard')
 
