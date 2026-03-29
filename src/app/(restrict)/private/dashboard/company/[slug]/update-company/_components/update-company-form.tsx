@@ -60,8 +60,8 @@ const updateCompanyFormSchema = z
     benefits: z.string().trim().nonempty({
       message: 'Os benefícios são obrigatórios',
     }),
-    contractStart: z.date().optional(),
-    contractEnd: z.date().optional(),
+    contractStart: z.date().nullable().optional(),
+    contractEnd: z.date().nullable().optional(),
     featured: z.boolean().optional(),
     cityId: z.cuid({
       message: 'A cidade é obrigatória',
@@ -127,8 +127,8 @@ export function useUpdateCompanyForm({
       zipCode: zipCode || '',
       discount: discount || '',
       benefits: benefits || '',
-      contractStart: contractStart || undefined,
-      contractEnd: contractEnd || undefined,
+      contractStart: contractStart ?? null,
+      contractEnd: contractEnd ?? null,
       featured: featured || false,
       cityId: cityId || '',
       categoryId: categoryId || '',

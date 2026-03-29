@@ -58,8 +58,8 @@ const newCompanyFormSchema = z
     benefits: z.string().trim().nonempty({
       message: 'Os benefícios são obrigatórios',
     }),
-    contractStart: z.coerce.date().optional(),
-    contractEnd: z.coerce.date().optional(),
+    contractStart: z.coerce.date().nullable().optional(),
+    contractEnd: z.coerce.date().nullable().optional(),
     featured: z.boolean().optional(),
     cityId: z.cuid({
       message: 'A cidade é obrigatória',
@@ -118,6 +118,8 @@ export async function createCompany(data: NewCompanyFormType) {
     await prisma.company.create({
       data: {
         ...rest,
+        contractStart: rest.contractStart ?? null,
+        contractEnd: rest.contractEnd ?? null,
         cnpj: document,
       },
     })

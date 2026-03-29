@@ -36,6 +36,8 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
   const queryClient = useQueryClient()
   const [logoUrl, setLogoUrl] = useState<string | undefined>(undefined)
   const [publicImageId, setPublicImageId] = useState<string | undefined>(undefined)
+  const [hasInvalidContractStart, setHasInvalidContractStart] = useState(false)
+  const [hasInvalidContractEnd, setHasInvalidContractEnd] = useState(false)
 
   const form = useNewCompanyForm({
     name: '',
@@ -53,8 +55,8 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
     neighborhood: '',
     zipCode: '',
     discount: '',
-    contractStart: undefined,
-    contractEnd: undefined,
+    contractStart: null,
+    contractEnd: null,
     featured: false,
     benefits: '',
     cityId: '',
@@ -62,6 +64,11 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
   })
 
   async function handleNewCompany(data: NewCompanyFormType) {
+    if (hasInvalidContractStart || hasInvalidContractEnd) {
+      toast.error('Corrija as datas do contrato antes de continuar')
+      return
+    }
+
     if (!logoUrl || !publicImageId) {
       toast.error('Adicione uma imagem da empresa antes de criar')
       return
@@ -84,6 +91,8 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
 
     setLogoUrl(undefined)
     setPublicImageId(undefined)
+    setHasInvalidContractStart(false)
+    setHasInvalidContractEnd(false)
     form.reset()
     router.push('/private/dashboard')
   }
@@ -521,7 +530,27 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                         <FormControl>
                           <div className="relative">
                             <CalendarClock className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
-                            <DatePicker date={field.value as Date} setDate={field.onChange} label="start" className="pl-9" />
+                            <DatePicker
+                              date={field.value as Date | null | undefined}
+                              setDate={field.onChange}
+                              label="start"
+                              className="pl-9"
+                              onInvalidChange={invalid => {
+                                setHasInvalidContractStart(invalid)
+
+                                if (invalid) {
+                                  form.setError('contractStart', {
+                                    type: 'manual',
+                                    message: 'Insira uma data válida no formato dd/MM/aaaa',
+                                  })
+                                  return
+                                }
+
+                                if (form.formState.errors.contractStart?.type === 'manual') {
+                                  form.clearErrors('contractStart')
+                                }
+                              }}
+                            />
                           </div>
                         </FormControl>
 
@@ -539,7 +568,27 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                         <FormControl>
                           <div className="relative">
                             <CalendarClock className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
-                            <DatePicker date={field.value as Date} setDate={field.onChange} label="end" className="pl-9" />
+                            <DatePicker
+                              date={field.value as Date | null | undefined}
+                              setDate={field.onChange}
+                              label="end"
+                              className="pl-9"
+                              onInvalidChange={invalid => {
+                                setHasInvalidContractEnd(invalid)
+
+                                if (invalid) {
+                                  form.setError('contractEnd', {
+                                    type: 'manual',
+                                    message: 'Insira uma data válida no formato dd/MM/aaaa',
+                                  })
+                                  return
+                                }
+
+                                if (form.formState.errors.contractEnd?.type === 'manual') {
+                                  form.clearErrors('contractEnd')
+                                }
+                              }}
+                            />
                           </div>
                         </FormControl>
 
@@ -615,7 +664,7 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                     Criando Empresa...
                   </Button>
                 ) : (
-                  <Button type="submit" className="flex-1">
+                  <Button type="submit" className="flex-1" disabled={hasInvalidContractStart || hasInvalidContractEnd}>
                     <Save />
                     Criar Empresa
                   </Button>

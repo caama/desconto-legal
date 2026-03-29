@@ -38,8 +38,8 @@ const updateCompanyFormSchema = z
     zipCode: z.string().trim().nonempty(),
     discount: z.string().trim().nonempty(),
     benefits: z.string().trim().nonempty(),
-    contractStart: z.coerce.date().optional(),
-    contractEnd: z.coerce.date().optional(),
+    contractStart: z.coerce.date().nullable().optional(),
+    contractEnd: z.coerce.date().nullable().optional(),
     featured: z.boolean().optional(),
     cityId: z.cuid(),
     categoryId: z.cuid(),
@@ -111,6 +111,8 @@ export async function updateCompany(data: UpdateFormType) {
       },
       data: {
         ...rest,
+        contractStart: rest.contractStart ?? null,
+        contractEnd: rest.contractEnd ?? null,
         cnpj: document,
       },
     })

@@ -12,7 +12,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { API } from '@/lib/axios'
 import { formatWhatsapp } from '@/utils/format-whatsapp'
-import { getContractStatus, getRemainingTime } from '@/utils/get-contract-duration'
+import { getContractDuration, getContractStatus } from '@/utils/get-contract-duration'
 import { CompaniesTableSkeleton } from './companies-skeleton'
 import { FilterCompanies } from './filter-company'
 import { InactiveCompany } from './inactive-company'
@@ -130,7 +130,7 @@ export function Companies() {
                 {data &&
                   data.companies.map(company => {
                     const { status } = getContractStatus(company.contractEnd)
-                    const remaining = getRemainingTime(company.contractEnd)
+                    const duration = getContractDuration(company.contractStart, company.contractEnd)
 
                     return (
                       <TableRow key={company.id} className="transition-colors duration-200 hover:bg-primary/5">
@@ -182,7 +182,7 @@ export function Companies() {
                           {company.contractStart === null || company.contractEnd === null ? (
                             <Badge variant="outline">Sem expiração</Badge>
                           ) : (
-                            <Badge variant={status}>{remaining}</Badge>
+                            <Badge variant={status}>{duration}</Badge>
                           )}
                         </TableCell>
 
