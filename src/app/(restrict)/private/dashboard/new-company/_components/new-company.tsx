@@ -152,7 +152,7 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                           <div className="relative">
                             <FileText className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
                             <Input
-                              placeholder="000.000.000-00 ou 00.000.000/0000-00"
+                              placeholder="Digite o CPF ou CNPJ"
                               className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
                               {...field}
                               value={formatCompanyDocument(field.value ?? '')}
@@ -163,8 +163,6 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                             />
                           </div>
                         </FormControl>
-                        <FormDescription>O campo identifica automaticamente se o documento é CPF ou CNPJ.</FormDescription>
-
                         <FormMessage className="text-destructive text-xs" />
                       </FormItem>
                     )}
