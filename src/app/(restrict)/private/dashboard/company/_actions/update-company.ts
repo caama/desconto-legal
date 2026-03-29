@@ -42,14 +42,7 @@ const updateCompanyFormSchema = z
     address: z.string().trim().nonempty(),
     neighborhood: z.string().trim().nonempty(),
     zipCode: z.string().trim().nonempty(),
-    discount: z
-      .string()
-      .trim()
-      .nonempty()
-      .refine(value => {
-        const number = Number(value)
-        return !Number.isNaN(number) && number >= 0 && number <= 100
-      }),
+    discount: z.string().trim().nonempty(),
     benefits: z.string().trim().nonempty(),
     contractStart: z.coerce.date().optional(),
     contractEnd: z.coerce.date().optional(),

@@ -60,19 +60,7 @@ const newCompanyFormSchema = z
     zipCode: z.string().trim().nonempty({
       message: 'O CEP é obrigatório',
     }),
-    discount: z
-      .string()
-      .trim()
-      .nonempty({ message: 'O desconto é obrigatório' })
-      .refine(
-        value => {
-          const number = Number(value)
-          return !Number.isNaN(number) && number >= 0 && number <= 100
-        },
-        {
-          message: 'O desconto deve ser um número entre 0 e 100',
-        }
-      ),
+    discount: z.string().trim().nonempty({ message: 'O desconto é obrigatório' }),
     benefits: z.string().trim().nonempty({
       message: 'Os benefícios são obrigatórios',
     }),

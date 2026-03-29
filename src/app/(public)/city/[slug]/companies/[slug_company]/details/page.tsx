@@ -115,7 +115,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
                     </div>
                     <div>
                       <p className="font-medium text-emerald-600/70 text-sm">Exclusivo para Advogados Associados e Dependentes</p>
-                      <p className="mt-1 font-bold text-emerald-600 text-xl">{company.discount}% de desconto</p>
+                      <p className="mt-1 font-bold text-emerald-600 text-xl">{company.discount}</p>
                     </div>
                   </div>
                 </div>

@@ -562,15 +562,13 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Desconto em % <span className="mt-0.5 text-destructive">*</span>
+                        Desconto<span className="mt-0.5 text-destructive">*</span>
                       </FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <RiPercentFill className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
                           <Input
-                            placeholder="20"
                             {...field}
-                            className="w-1/2 rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                            className="w-1/2 rounded-sm placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
                           />
                         </div>
                       </FormControl>
