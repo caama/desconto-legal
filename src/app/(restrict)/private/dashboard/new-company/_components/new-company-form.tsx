@@ -3,30 +3,24 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { isValidCNPJ } from '@/utils/is-valid-cnpj'
+import { isValidCompanyDocument, normalizeCompanyDocument } from '@/utils/company-document'
 
 const newCompanyFormSchema = z
   .object({
     name: z.string().trim().nonempty({
       message: 'O nome é obrigatório',
     }),
-    cnpj: z
+    document: z
       .string()
       .trim()
-      .nonempty({ message: 'O CNPJ é obrigatório' })
-      .transform(value => value.replace(/\D/g, '').slice(0, 14)) // limita aqui
-      .refine(value => value.length === 14, {
-        message: 'CNPJ incompleto',
+      .nonempty({ message: 'O CPF ou CNPJ é obrigatório' })
+      .transform(normalizeCompanyDocument)
+      .refine(value => value.length === 11 || value.length === 14, {
+        message: 'CPF ou CNPJ incompleto',
       })
-      .refine(
-        value => {
-          if (value.length < 14) return true // não valida enquanto digita
-          return isValidCNPJ(value)
-        },
-        {
-          message: 'CNPJ inválido',
-        }
-      ),
+      .refine(isValidCompanyDocument, {
+        message: 'CPF ou CNPJ inválido',
+      }),
     responsible: z.string().trim().optional(),
     slug: z
       .string()
@@ -90,7 +84,7 @@ export type NewCompanyFormType = z.input<typeof newCompanyFormSchema>
 
 type UseNewCompanyFormType = {
   name: string
-  cnpj: string
+  document: string
   responsible?: string
   slug: string
   description: string
@@ -114,7 +108,7 @@ type UseNewCompanyFormType = {
 
 export function useNewCompanyForm({
   name,
-  cnpj,
+  document,
   responsible,
   slug,
   description,
@@ -140,7 +134,7 @@ export function useNewCompanyForm({
     resolver: zodResolver(newCompanyFormSchema),
     defaultValues: {
       name: name || '',
-      cnpj: cnpj || '',
+      document: document || '',
       responsible: responsible || '',
       slug: slug || '',
       description: description || '',
