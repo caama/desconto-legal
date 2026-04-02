@@ -103,7 +103,7 @@ export function UpdateCategories({ categories }: UpdateCategoryProps) {
                 name="slug"
                 render={({ field, formState: { errors } }) => (
                   <FormItem>
-                    <FormLabel>Slug (URL):</FormLabel>
+                    <FormLabel>Slug da Categoria:</FormLabel>
                     <FormControl>
                       <Input placeholder="Ex: sao-luis" {...field} className="rounded-sm placeholder:text-xs" />
                     </FormControl>

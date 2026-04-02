@@ -104,7 +104,7 @@ export function UpdateCities({ cities }: UpdateCityProps) {
                 name="slug"
                 render={({ field, formState: { errors } }) => (
                   <FormItem>
-                    <FormLabel>Slug (URL):</FormLabel>
+                    <FormLabel>Slug da Cidade:</FormLabel>
                     <FormControl>
                       <Input placeholder="Ex: sao-luis" {...field} className="rounded-sm placeholder:text-xs" />
                     </FormControl>
@@ -129,7 +129,7 @@ export function UpdateCities({ cities }: UpdateCityProps) {
                       <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
 
-                    <FormLabel className="text-sm">É a sede (São Luís)</FormLabel>
+                    <FormLabel className="text-sm">Sede</FormLabel>
                   </FormItem>
                 )}
               />
