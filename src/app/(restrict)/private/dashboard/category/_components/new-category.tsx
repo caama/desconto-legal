@@ -83,7 +83,7 @@ export function NewCategory() {
                 name="slug"
                 render={({ field, formState: { errors } }) => (
                   <FormItem>
-                    <FormLabel>Slug (URL):</FormLabel>
+                    <FormLabel>Slug da Categoria:</FormLabel>
                     <FormControl>
                       <Input placeholder="Ex: alimentacao" {...field} className="rounded-sm placeholder:text-xs" />
                     </FormControl>
@@ -106,7 +106,7 @@ export function NewCategory() {
                   <FormItem>
                     <FormLabel>Ícone (Opcional):</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ex: 🍔" {...field} className="rounded-sm placeholder:text-xs" />
+                      <Input placeholder="Ex: 📚" {...field} className="rounded-sm placeholder:text-xs" />
                     </FormControl>
 
                     <FormMessage className="text-destructive text-xs" />

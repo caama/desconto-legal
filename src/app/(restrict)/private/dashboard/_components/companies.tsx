@@ -182,7 +182,7 @@ export function Companies() {
                           {company.contractStart === null || company.contractEnd === null ? (
                             <Badge variant="outline">Sem expiração</Badge>
                           ) : (
-                            <Badge variant={status}>{duration}</Badge>
+                            <Badge variant={status}>{status === 'expired' ? 'Contrato Expirado' : duration}</Badge>
                           )}
                         </TableCell>
 

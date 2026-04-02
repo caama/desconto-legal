@@ -75,24 +75,6 @@ export async function updateProfile({ id, name, slug, isThirst }: CityFormType) 
     }
   }
 
-  // 🔹 REGRA DE NEGÓCIO: só pode existir UMA sede
-  if (isThirst) {
-    const existingHeadCity = await prisma.city.findFirst({
-      where: {
-        isThirst: true,
-        NOT: { id }, // permite salvar se a própria cidade já for sede
-      },
-      select: { id: true, name: true },
-    })
-
-    if (existingHeadCity) {
-      return {
-        status: 400,
-        error: 'Já existe uma cidade como Sede.',
-      }
-    }
-  }
-
   try {
     await prisma.city.update({
       where: {
