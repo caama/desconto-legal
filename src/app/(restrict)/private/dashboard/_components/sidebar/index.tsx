@@ -36,7 +36,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
     <main className="flex min-h-screen w-full">
       {/* Menu Sidebar Desktop */}
       <aside
-        className={cn('flex h-full flex-col border-r bg-background p-4 z-50 transition-all duration-300', {
+        className={cn('z-50 flex h-full flex-col border-r bg-background p-4 transition-all duration-300', {
           'w-20': isCollapsed,
           'w-68': !isCollapsed,
           'hidden md:fixed md:flex md:items-center': true,
@@ -67,7 +67,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               )}
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="bg-linear-to-r from-primary to-sky-600 font-medium" side={isCollapsed ? 'right' : 'top'}>
+          <TooltipContent className="bg-[#22254D] font-medium text-white" side={isCollapsed ? 'right' : 'top'}>
             <p>{isCollapsed ? 'Expandir' : 'Minimizar'}</p>
           </TooltipContent>
         </Tooltip>
@@ -152,7 +152,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                       <LogOut className="size-4" />
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent className="bg-linear-to-r from-primary to-sky-600 font-medium" side="right">
+                  <TooltipContent className="bg-[#22254D] font-medium text-white" side="right">
                     Sair
                   </TooltipContent>
                 </Tooltip>

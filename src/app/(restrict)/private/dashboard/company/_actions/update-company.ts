@@ -78,29 +78,24 @@ export async function updateCompany(data: UpdateFormType) {
 
   const { document, ...rest } = schema.data
 
-  const [slugExists, cnpjExists] = await Promise.all([
-    prisma.company.findFirst({
-      where: {
-        slug: rest.slug,
-        NOT: {
-          id: rest.id,
-        },
+  const existingCompanyInCity = await prisma.company.findFirst({
+    where: {
+      cityId: rest.cityId,
+      cnpj: document,
+      slug: rest.slug,
+      NOT: {
+        id: rest.id,
       },
-    }),
-    prisma.company.findFirst({
-      where: {
-        cnpj: document,
-        NOT: {
-          id: rest.id,
-        },
-      },
-    }),
-  ])
+    },
+    select: {
+      id: true,
+    },
+  })
 
-  if (slugExists || cnpjExists) {
+  if (existingCompanyInCity) {
     return {
-      status: 400,
-      error: 'Empresa já cadastrada no sistema.',
+      status: 409,
+      error: 'Empresa já cadastrada nesta cidade.',
     }
   }
 

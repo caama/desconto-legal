@@ -102,19 +102,25 @@ export async function createCompany(data: NewCompanyFormType) {
 
   const { document, ...rest } = schema.data
 
-  const [slugExists, cnpjExists] = await Promise.all([
-    prisma.company.findUnique({ where: { slug: rest.slug } }),
-    prisma.company.findUnique({ where: { cnpj: document } }),
-  ])
-
-  if (slugExists || cnpjExists) {
-    return {
-      status: 400,
-      error: 'Empresa já cadastrada no sistema.',
-    }
-  }
-
   try {
+    const existingCompanyInCity = await prisma.company.findFirst({
+      where: {
+        cityId: rest.cityId,
+        cnpj: document,
+        slug: rest.slug,
+      },
+      select: {
+        id: true,
+      },
+    })
+
+    if (existingCompanyInCity) {
+      return {
+        status: 409,
+        error: 'Empresa já cadastrada nesta cidade.',
+      }
+    }
+
     await prisma.company.create({
       data: {
         ...rest,

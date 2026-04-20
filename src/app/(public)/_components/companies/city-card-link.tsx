@@ -29,7 +29,7 @@ export function CityCardLink({ city }: CityCardLinkProps) {
   }
 
   return (
-    <AnimatedCard>
+    <AnimatedCard className="w-[280px] shrink-0 snap-center sm:w-[320px] lg:w-[340px]">
       <button
         type="button"
         onClick={handleNavigate}
@@ -37,11 +37,11 @@ export function CityCardLink({ city }: CityCardLinkProps) {
         className="block w-full text-left"
         aria-busy={isPending}
       >
-        <Card className="group hover:-translate-y-1.25 relative overflow-hidden transition-all duration-300 hover:border-muted/70 hover:shadow-lg">
+        <Card className="group relative overflow-hidden transition-all duration-300 hover:border-primary/70 hover:shadow-lg">
           <div className="absolute top-3 right-3 z-10">
             <div className="flex size-8 items-center justify-center rounded-full bg-primary/10 transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 group-hover:bg-primary">
               <ExternalLink
-                className="h-4 w-4 text-primary transition-colors duration-300 group-hover:text-primary-foreground"
+                className="h-4 w-4 text-pribg-primary transition-colors duration-300 group-hover:text-primary-foreground"
                 strokeWidth={2.5}
               />
             </div>
@@ -55,7 +55,7 @@ export function CityCardLink({ city }: CityCardLinkProps) {
             <div className="flex-1">
               <h4 className="font-semibold text-foreground group-hover:text-primary">{city.name}</h4>
               {city.isThirst ? (
-                <span className="flex items-center gap-1.5 text-primary text-xs">
+                <span className="flex items-center gap-1.5 text-pribg-primary text-xs">
                   <div className="size-2 animate-pulse rounded-full bg-primary" />
                   Sede
                 </span>
@@ -71,7 +71,7 @@ export function CityCardLink({ city }: CityCardLinkProps) {
           <span
             className={cn(
               buttonVariants({ size: 'sm' }),
-              'pointer-events-none absolute right-4 bottom-4',
+              'pointer-events-none absolute right-4 bottom-4 bg-primary',
               isPending && 'opacity-90'
             )}
           >

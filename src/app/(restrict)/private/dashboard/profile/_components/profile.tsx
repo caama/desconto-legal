@@ -57,7 +57,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
             </CardHeader>
 
             <CardContent className="space-y-6">
-              <div className="relative mx-auto flex h-25 w-25 overflow-hidden rounded-full border-2 border-primary md:h-42 md:w-42">
+              <div className="relative mx-auto flex h-25 w-25 overflow-hidden rounded-full md:h-42 md:w-42">
                 <Image
                   src={user.image || ''}
                   alt={user.name || ''}
@@ -117,7 +117,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
                 />
               </div>
 
-              <Button type="submit" className="mt-2 w-full bg-linear-to-r from-primary to-sky-600">
+              <Button type="submit" className="mt-2 w-full bg-[#22254D] text-white">
                 {form.formState.isSubmitting ? (
                   <>
                     <ImSpinner2 className="animate-spin" />

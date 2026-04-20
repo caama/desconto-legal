@@ -16,7 +16,7 @@ type CategoriesItemProps = {
 
 export function CategoriesList({ categories }: CategoriesItemProps) {
   return (
-    <DraggableScroll className="scroll-hidden mask-r-from-80% flex w-full gap-2 overflow-auto pr-28">
+    <DraggableScroll className="scroll-hidden mask-r-from-80% gap-2 pb-2">
       {categories.map(category => (
         <CategoryItem key={category.id} category={category} />
       ))}

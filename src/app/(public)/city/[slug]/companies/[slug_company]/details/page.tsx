@@ -34,7 +34,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
     notFound()
   }
 
-  const sharedUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/city/${company.city.slug}/companies/${company.slug}`
+  const sharedUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/city/${company.city.slug}/companies/${company.slug}/details`
 
   return (
     <div className="min-h-screen bg-primary/5">

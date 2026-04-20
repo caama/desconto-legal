@@ -125,8 +125,8 @@ model Company {
   id            String  @id @default(cuid())
   name          String
   responsible   String?
-  cnpj          String  @unique
-  slug          String  @unique
+  cnpj          String
+  slug          String
   description   String  @db.Text
   logoUrl       String? @map("logo_url")
   publicImageId String? @unique @map("public_image_id")
