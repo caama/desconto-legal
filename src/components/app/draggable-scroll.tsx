@@ -45,8 +45,10 @@ export function DraggableScroll({ className, showArrows = false, children, ...pr
     const el = ref.current
     if (!el) return
     const isMobile = window.innerWidth < 640
-    const scrollAmount = isMobile ? el.clientWidth : SCROLL_AMOUNT
-    const amount = direction === 'left' ? -scrollAmount : scrollAmount
+    // No mobile: usa a largura do primeiro card filho para rolar exatamente 1 item
+    const firstChild = el.firstElementChild as HTMLElement | null
+    const cardWidth = isMobile && firstChild ? firstChild.offsetWidth + parseFloat(getComputedStyle(el).gap || '0') : SCROLL_AMOUNT
+    const amount = direction === 'left' ? -cardWidth : cardWidth
     el.scrollBy({ left: amount, behavior: 'smooth' })
   }, [])
 

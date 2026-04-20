@@ -29,7 +29,7 @@ export function CityCardLink({ city }: CityCardLinkProps) {
   }
 
   return (
-    <AnimatedCard className="w-[280px] shrink-0 snap-center sm:w-[320px] lg:w-[340px]">
+    <AnimatedCard className="w-full shrink-0 snap-center snap-always sm:w-[320px] lg:w-[340px]">
       <button
         type="button"
         onClick={handleNavigate}

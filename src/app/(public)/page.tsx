@@ -36,7 +36,7 @@ export default async function CompaniesPage() {
 
               <DraggableScroll
                 showArrows
-                className="scroll-hidden snap-x snap-mandatory gap-4 px-[calc(50%-140px)] pb-2 sm:snap-none sm:px-0 lg:gap-6"
+                className="scroll-hidden snap-x snap-mandatory gap-4 pb-2 sm:snap-none lg:gap-6"
               >
                 {cities.map(city => (
                   <CityCardLink key={city.id} city={city} />
