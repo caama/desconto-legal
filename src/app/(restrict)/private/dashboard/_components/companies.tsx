@@ -40,7 +40,7 @@ export function Companies() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const [editingCompanySlug, setEditingCompanySlug] = useState<string | null>(null)
+  const [editingCompanyId, setEditingCompanyId] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
 
   const page = z.coerce.number().parse(searchParams.get('page') || '1')
@@ -74,16 +74,16 @@ export function Companies() {
     router.push(`?${params.toString()}`)
   }
 
-  function handleEditCompany(slug: string) {
-    setEditingCompanySlug(slug)
+  function handleEditCompany(id: string) {
+    setEditingCompanyId(id)
 
     startTransition(() => {
-      router.push(`/private/dashboard/company/${slug}/update-company`)
+      router.push(`/private/dashboard/company/${id}/update-company`)
     })
   }
 
-  function handlePrefetchEditCompany(slug: string) {
-    router.prefetch(`/private/dashboard/company/${slug}/update-company`)
+  function handlePrefetchEditCompany(id: string) {
+    router.prefetch(`/private/dashboard/company/${id}/update-company`)
   }
 
   return (
@@ -207,18 +207,18 @@ export function Companies() {
                               variant="outline"
                               size="icon"
                               className="hover:bg-muted"
-                              disabled={isPending && editingCompanySlug === company.slug}
-                              onClick={() => handleEditCompany(company.slug)}
-                              onMouseEnter={() => handlePrefetchEditCompany(company.slug)}
-                              onFocus={() => handlePrefetchEditCompany(company.slug)}
+                              disabled={isPending && editingCompanyId === company.id}
+                              onClick={() => handleEditCompany(company.id)}
+                              onMouseEnter={() => handlePrefetchEditCompany(company.id)}
+                              onFocus={() => handlePrefetchEditCompany(company.id)}
                             >
-                              {isPending && editingCompanySlug === company.slug ? (
+                              {isPending && editingCompanyId === company.id ? (
                                 <Loader2 className="size-4 animate-spin" />
                               ) : (
                                 <Edit2 className="size-4" />
                               )}
                               <span className="sr-only">
-                                {isPending && editingCompanySlug === company.slug ? 'Abrindo edição' : 'Editar'}
+                                {isPending && editingCompanyId === company.id ? 'Abrindo edição' : 'Editar'}
                               </span>
                             </Button>
 

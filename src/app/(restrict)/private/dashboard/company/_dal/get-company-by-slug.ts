@@ -3,11 +3,11 @@
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
-type GetCompanyBySlugProps = {
-  slug: string
+type GetCompanyByIdProps = {
+  id: string
 }
 
-export async function getCompanyBySlug({ slug }: GetCompanyBySlugProps) {
+export async function getCompanyById({ id }: GetCompanyByIdProps) {
   const session = await auth()
 
   if (!session?.user) {
@@ -15,7 +15,7 @@ export async function getCompanyBySlug({ slug }: GetCompanyBySlugProps) {
   }
 
   const company = await prisma.company.findUnique({
-    where: { slug },
+    where: { id },
   })
 
   if (!company) {
