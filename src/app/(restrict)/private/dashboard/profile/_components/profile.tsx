@@ -117,7 +117,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
                 />
               </div>
 
-              <Button type="submit" className="mt-2 w-full bg-[#22254D] text-white">
+              <Button type="submit" className="mt-2 w-full bg-primary text-white">
                 {form.formState.isSubmitting ? (
                   <>
                     <ImSpinner2 className="animate-spin" />

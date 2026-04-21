@@ -20,7 +20,7 @@ export function SocialTooltip({ children, link, label }: SocialTooltipProps) {
           </Button>
         </div>
       </TooltipTrigger>
-      <TooltipContent className="border border-white/50 bg-[#22254D] font-medium">{label}</TooltipContent>
+      <TooltipContent className="border border-white/50 bg-primary font-medium">{label}</TooltipContent>
     </Tooltip>
   )
 }

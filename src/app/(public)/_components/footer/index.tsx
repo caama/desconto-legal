@@ -5,7 +5,7 @@ import { SocialTooltip } from './social-tooltip'
 
 export function Footer() {
   return (
-    <footer className="rounded-t-[32px] bg-[#22254D] py-12 sm:rounded-t-[48px] sm:py-16 lg:rounded-t-[60px] lg:py-20">
+    <footer className="rounded-t-[32px] bg-primary py-12 sm:rounded-t-[48px] sm:py-16 lg:rounded-t-[60px] lg:py-20">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center gap-10 text-center lg:flex-row lg:items-start lg:justify-between lg:gap-8 lg:text-left">
           <div className="flex w-full max-w-[280px] justify-center lg:max-w-[400px] lg:justify-start">

@@ -18,9 +18,9 @@ export function SidebarLink({ href, icon, label, pathname, isCollapsed, setIsShe
         <button
           type="button"
           className={cn(
-            'flex w-full items-center gap-2 rounded-md border px-4 py-2 text-[#22254D] text-sm transition-colors hover:bg-[#22254D] hover:text-white',
+            'flex w-full items-center gap-2 rounded-md border px-4 py-2 text-primary text-sm transition-colors hover:bg-primary hover:text-white',
             {
-              'bg-[#22254D] text-white': pathname === href,
+              'bg-primary text-white': pathname === href,
             }
           )}
           onClick={() => setIsSheetOpen(false)}
@@ -33,16 +33,16 @@ export function SidebarLink({ href, icon, label, pathname, isCollapsed, setIsShe
           <TooltipTrigger asChild>
             <span
               className={cn(
-                'flex size-9 items-center justify-center gap-2 rounded-md border text-[#22254D] transition-colors hover:bg-[#22254D] hover:text-white',
+                'flex size-9 items-center justify-center gap-2 rounded-md border text-primary transition-colors hover:bg-primary hover:text-white',
                 {
-                  'bg-[#22254D] text-white': pathname === href,
+                  'bg-primary text-white': pathname === href,
                 }
               )}
             >
               {icon}
             </span>
           </TooltipTrigger>
-          <TooltipContent className="bg-[#22254D] font-medium text-white" sideOffset={10} side="right">
+          <TooltipContent className="bg-primary font-medium text-white" sideOffset={10} side="right">
             <p>{label}</p>
           </TooltipContent>
         </Tooltip>

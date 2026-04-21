@@ -12,6 +12,7 @@ import { PaginationCities } from '../../city/_components/pagination-cities'
 import { CategoriesSkeleton } from './categories-skeleton'
 import { FilterCategories } from './filter-categories'
 import { NewCategory } from './new-category'
+import { PaginationCategories } from './pagination-categories'
 import { ToggleCategory } from './toggle-category'
 import { UpdateCategories } from './update-categories'
 
@@ -151,7 +152,7 @@ export function CategoriesContent() {
             </Table>
           </div>
 
-          <PaginationCities page={page} onPageChange={handlePageChange} totalCount={data?.total ?? 0} />
+          <PaginationCategories page={page} onPageChange={handlePageChange} totalCount={data?.total ?? 0} />
         </CardContent>
       </Card>
     </main>

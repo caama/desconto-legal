@@ -33,7 +33,7 @@ export async function CompaniesByCityContent({ city, query, categories: rawCateg
               <ArrowLeft className="group-hover:-translate-x-1 mr-2 size-4 text-foreground/80 transition-transform duration-200" />
             </Link>
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#22254D]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
                 <MapPin className="h-5 w-5 text-primary-foreground" />
               </div>
               <div>
@@ -52,7 +52,7 @@ export async function CompaniesByCityContent({ city, query, categories: rawCateg
       {/* Content */}
       <section className="container mx-auto px-4 py-8">
         {/* Info Banner */}
-        <div className="mb-8 rounded-lg bg-[#22254D] p-6 text-primary-foreground">
+        <div className="mb-8 rounded-lg bg-primary p-6 text-primary-foreground">
           <div className="flex items-start gap-4">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-muted bg-muted/10 text-muted">
               <Building2 className="h-6 w-6" />

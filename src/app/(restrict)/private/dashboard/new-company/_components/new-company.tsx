@@ -100,7 +100,7 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
   return (
     <main className="mx-auto flex min-h-screen flex-col p-4">
       <Card className="pt-0">
-        <CardHeader className="flex flex-col rounded-t-xl bg-[#22254D] px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <CardHeader className="flex flex-col rounded-t-xl bg-primary px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-2">
             <CardTitle className="font-bold text-lg text-muted md:text-2xl">Nova Empresa Conveniada</CardTitle>
             <CardDescription className="text-muted text-sm md:text-base">

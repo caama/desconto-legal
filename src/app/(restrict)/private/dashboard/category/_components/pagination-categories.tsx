@@ -4,19 +4,19 @@ import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-r
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
-interface PaginationUsersProps {
+interface PaginationCategoriesProps {
   page: number
   totalCount: number
   onPageChange: (page: number) => Promise<void> | void
 }
 
-export function PaginationUsers({ page, totalCount, onPageChange }: PaginationUsersProps) {
-  const perPage = 5
+export function PaginationCategories({ page, totalCount, onPageChange }: PaginationCategoriesProps) {
+  const perPage = 8
   const pages = Math.ceil(totalCount / perPage) || 1
 
   return (
     <div className="flex items-center justify-between">
-      <span className="font-medium text-muted-foreground text-xs md:text-sm">Total de usuários: {totalCount}</span>
+      <span className="font-medium text-muted-foreground text-xs md:text-sm">Total de categorias: {totalCount}</span>
 
       <span className="font-medium text-muted-foreground text-xs md:text-sm">
         Página {page} de {pages}

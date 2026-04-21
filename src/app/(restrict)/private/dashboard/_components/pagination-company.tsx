@@ -29,9 +29,7 @@ export function PaginationCompanies({ page, totalCount, onPageChange }: Paginati
               <ChevronsLeft className="size-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-linear-to-r from-primary to-sky-600 font-medium">
-            Primeira página
-          </TooltipContent>
+          <TooltipContent className="border border-white/50 bg-primary font-medium">Primeira página</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -40,9 +38,7 @@ export function PaginationCompanies({ page, totalCount, onPageChange }: Paginati
               <ChevronLeft className="size-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-linear-to-r from-primary to-sky-600 font-medium">
-            Página anterior
-          </TooltipContent>
+          <TooltipContent className="border border-white/50 bg-primary font-medium">Página anterior</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -51,9 +47,7 @@ export function PaginationCompanies({ page, totalCount, onPageChange }: Paginati
               <ChevronRight className="size-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-linear-to-r from-primary to-sky-600 font-medium">
-            Próxima página
-          </TooltipContent>
+          <TooltipContent className="border border-white/50 bg-primary font-medium">Próxima página</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -62,9 +56,7 @@ export function PaginationCompanies({ page, totalCount, onPageChange }: Paginati
               <ChevronsRight className="size-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-linear-to-r from-primary to-sky-600 font-medium">
-            Última página
-          </TooltipContent>
+          <TooltipContent className="border border-white/50 bg-primary font-medium">Última página</TooltipContent>
         </Tooltip>
       </div>
     </div>

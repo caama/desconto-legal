@@ -21,7 +21,7 @@ export function FooterLegalDialog({ title, description, children }: FooterLegalD
       <DialogTrigger asChild>
         <button
           type="button"
-          className="inline-flex items-center gap-2 text-left text-inherit transition hover:text-blue-300 focus:outline-hidden focus:ring-2 focus:ring-white/60 focus:ring-offset-2 focus:ring-offset-[#22254D]"
+          className="inline-flex items-center gap-2 text-left text-inherit transition hover:text-blue-300 focus:outline-hidden focus:ring-2 focus:ring-white/60 focus:ring-offset-2 focus:ring-offset-primary"
         >
           <span>•</span>
           <span>{title}</span>
@@ -30,7 +30,7 @@ export function FooterLegalDialog({ title, description, children }: FooterLegalD
 
       <DialogContent className="max-h-[85vh] max-w-3xl overflow-hidden p-0">
         <DialogHeader className="border-b bg-slate-50 px-6 py-5">
-          <DialogTitle className="text-[#22254D] text-xl">{title}</DialogTitle>
+          <DialogTitle className="text-primary text-xl">{title}</DialogTitle>
           <DialogDescription className="leading-relaxed">{description}</DialogDescription>
         </DialogHeader>
 

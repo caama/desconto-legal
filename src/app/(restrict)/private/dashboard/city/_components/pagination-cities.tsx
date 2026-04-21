@@ -16,7 +16,7 @@ export function PaginationCities({ page, totalCount, onPageChange }: PaginationC
 
   return (
     <div className="flex items-center justify-between">
-      <span className="font-medium text-muted-foreground text-xs md:text-sm">Total de categorias: {totalCount}</span>
+      <span className="font-medium text-muted-foreground text-xs md:text-sm">Total de cidades: {totalCount}</span>
 
       <span className="font-medium text-muted-foreground text-xs md:text-sm">
         Página {page} de {pages}
@@ -29,9 +29,7 @@ export function PaginationCities({ page, totalCount, onPageChange }: PaginationC
               <ChevronsLeft className="size-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-linear-to-r from-primary to-sky-600 font-medium">
-            Primeira página
-          </TooltipContent>
+          <TooltipContent className="border border-white/50 bg-primary font-medium">Primeira página</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -40,9 +38,7 @@ export function PaginationCities({ page, totalCount, onPageChange }: PaginationC
               <ChevronLeft className="size-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-linear-to-r from-primary to-sky-600 font-medium">
-            Página anterior
-          </TooltipContent>
+          <TooltipContent className="border border-white/50 bg-primary font-medium">Página anterior</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -51,9 +47,7 @@ export function PaginationCities({ page, totalCount, onPageChange }: PaginationC
               <ChevronRight className="size-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-linear-to-r from-primary to-sky-600 font-medium">
-            Próxima página
-          </TooltipContent>
+          <TooltipContent className="border border-white/50 bg-primary font-medium">Próxima página</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -62,9 +56,7 @@ export function PaginationCities({ page, totalCount, onPageChange }: PaginationC
               <ChevronsRight className="size-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-linear-to-r from-primary to-sky-600 font-medium">
-            Última página
-          </TooltipContent>
+          <TooltipContent className="border border-white/50 bg-primary font-medium">Última página</TooltipContent>
         </Tooltip>
       </div>
     </div>
