@@ -2,6 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query'
 import { Plus, Save } from 'lucide-react'
+import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
@@ -14,6 +15,9 @@ import { createCategory } from '../_actions/create-category'
 import { type NewCategoryFormType, useNewCategoryForm } from './category-form'
 
 export function NewCategory() {
+  const params = useParams<{ slug: string }>()
+  const citySlug = params.slug
+
   const [isSheetOpen, setIsSheetOpen] = useState(false)
 
   const queryClient = useQueryClient()
@@ -37,6 +41,9 @@ export function NewCategory() {
 
     await queryClient.invalidateQueries({
       queryKey: ['categories'],
+    })
+    await queryClient.invalidateQueries({
+      queryKey: ['categories', citySlug],
     })
 
     setIsSheetOpen(false)

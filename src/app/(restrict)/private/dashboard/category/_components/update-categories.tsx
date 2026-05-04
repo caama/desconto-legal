@@ -2,6 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query'
 import { Edit2, Save } from 'lucide-react'
+import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
