@@ -89,13 +89,11 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
       return
     }
 
-    await queryClient.invalidateQueries({
-      queryKey: ['companies'],
-    })
+    toast.success(response.message)
+
+    await queryClient.invalidateQueries({ queryKey: ['companies'] })
 
     router.push('/private/dashboard')
-
-    toast.success(response.message)
   }
 
   return (

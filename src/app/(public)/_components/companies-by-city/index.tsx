@@ -1,3 +1,6 @@
+'use client'
+
+import { useQueries } from '@tanstack/react-query'
 import { ArrowLeft, Building2, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import { getActiveCategories } from '../../_dal/get-active-categories'
@@ -18,10 +21,21 @@ type CompaniesByCityProps = {
   categories: string | string[]
 }
 
-export async function CompaniesByCityContent({ city, query, categories: rawCategories }: CompaniesByCityProps) {
-  const companies = await getCompaniesByCity({ cityId: city.id, query, categories: rawCategories })
-
-  const categories = await getActiveCategories(city.slug)
+export function CompaniesByCityContent({ city, query, categories: rawCategories }: CompaniesByCityProps) {
+  const [{ data: companies }, { data: categories }] = useQueries({
+    queries: [
+      {
+        queryKey: ['companies-by-city', city.id, query, rawCategories],
+        queryFn: () => getCompaniesByCity({ cityId: city.id, query, categories: rawCategories }),
+        enabled: !!city.id,
+      },
+      {
+        queryKey: ['categories', city.slug],
+        queryFn: () => getActiveCategories(city.slug),
+        enabled: !!city.slug,
+      },
+    ],
+  })
 
   return (
     <div className="min-h-screen bg-primary/5">
@@ -67,7 +81,7 @@ export async function CompaniesByCityContent({ city, query, categories: rawCateg
         </div>
 
         {/* Client Component for Filtering */}
-        <CompanyListClient companies={companies} categories={categories} />
+        <CompanyListClient companies={companies ?? []} categories={categories ?? []} />
       </section>
     </div>
   )
