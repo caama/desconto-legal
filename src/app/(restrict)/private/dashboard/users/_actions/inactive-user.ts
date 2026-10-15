@@ -21,6 +21,14 @@ export async function inactiveUser({ id }: InactiveUserFormType) {
     }
   }
 
+  // Gerenciar usuários é exclusivo de administradores (a página já restringe, mas a action pode ser chamada direto)
+  if (session.user.role !== 'ADMIN') {
+    return {
+      status: 403,
+      error: 'Apenas administradores podem gerenciar usuários',
+    }
+  }
+
   const schema = inactiveUserFormSchema.safeParse({
     id,
   })
@@ -29,6 +37,14 @@ export async function inactiveUser({ id }: InactiveUserFormType) {
     return {
       status: 400,
       error: 'Ocorreu um erro ao inativar o usuário',
+    }
+  }
+
+  // Impede que o administrador se tranque para fora do painel
+  if (schema.data.id === session.user.id) {
+    return {
+      status: 400,
+      error: 'Você não pode inativar o seu próprio cadastro',
     }
   }
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useQueryClient } from '@tanstack/react-query'
-import { Edit2, Save } from 'lucide-react'
+import { Save, SquarePen } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { ImSpinner2 } from 'react-icons/im'
@@ -21,6 +21,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { updateProfile } from '../_actions/update-user'
 import { type UpdateUserFormType, useUpdateUserForm } from './users-form'
 
@@ -69,16 +70,25 @@ export function UpdateUsers({ user }: UpdateUsersProps) {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="icon" className="hover:bg-muted">
-          <Edit2 className="size-4" />
-          <span className="sr-only">Editar</span>
-        </Button>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon-sm"
+              aria-label={`Editar ${user.name ?? 'usuário'}`}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <SquarePen className="size-4" />
+            </Button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>Editar usuário</TooltipContent>
+      </Tooltip>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Editar Informações do Funcionário</DialogTitle>
-          <DialogDescription>Altere os dados do funcionário conforme necessário.</DialogDescription>
+          <DialogTitle>Editar usuário</DialogTitle>
+          <DialogDescription>Altere o nome e o papel do usuário no painel.</DialogDescription>
         </DialogHeader>
 
         <Separator />
@@ -91,7 +101,7 @@ export function UpdateUsers({ user }: UpdateUsersProps) {
                 name="name"
                 render={({ field, formState: { errors } }) => (
                   <FormItem>
-                    <FormLabel>Nome completo:</FormLabel>
+                    <FormLabel>Nome completo</FormLabel>
                     <FormControl>
                       <Input {...field} className="rounded-sm" />
                     </FormControl>
@@ -112,7 +122,7 @@ export function UpdateUsers({ user }: UpdateUsersProps) {
                 name="role"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Cargo Atual:</FormLabel>
+                    <FormLabel>Função</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger className="rounded-sm">

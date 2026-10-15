@@ -23,6 +23,14 @@ export async function updateProfile({ id, name, role }: UserFormType) {
     }
   }
 
+  // Gerenciar usuários é exclusivo de administradores (a página já restringe, mas a action pode ser chamada direto)
+  if (session.user.role !== 'ADMIN') {
+    return {
+      status: 403,
+      error: 'Apenas administradores podem gerenciar usuários',
+    }
+  }
+
   const schema = userFormSchema.safeParse({
     id,
     name,

@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { formatCityName } from '@/utils/format-city-name'
 
 const newCityFormSchema = z.object({
   name: z.string().trim().nonempty({
@@ -28,6 +29,14 @@ export async function createCity({ name, slug, isThirst }: NewCityFormType) {
     return {
       status: 401,
       error: 'Usuário não autenticado',
+    }
+  }
+
+  // Gerenciar cidades é exclusivo de administradores (a página já restringe, mas a action pode ser chamada direto)
+  if (session.user.role !== 'ADMIN') {
+    return {
+      status: 403,
+      error: 'Apenas administradores podem gerenciar cidades',
     }
   }
 
@@ -60,7 +69,7 @@ export async function createCity({ name, slug, isThirst }: NewCityFormType) {
   try {
     await prisma.city.create({
       data: {
-        name,
+        name: formatCityName(name),
         slug,
         isThirst,
       },

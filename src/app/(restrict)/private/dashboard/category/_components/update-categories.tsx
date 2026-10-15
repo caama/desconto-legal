@@ -1,8 +1,9 @@
 'use client'
 
 import { useQueryClient } from '@tanstack/react-query'
-import { Edit2, Save } from 'lucide-react'
+import { Save, SquarePen } from 'lucide-react'
 import { useState } from 'react'
+import { useWatch } from 'react-hook-form'
 import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -19,6 +20,8 @@ import {
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { slugify } from '@/utils/slugify'
 import { updateCategory } from '../_actions/update-category'
 import { type UpdateCategoryFormType, useUpdateCategoryForm } from './update-category-form'
 
@@ -43,6 +46,37 @@ export function UpdateCategories({ categories }: UpdateCategoryProps) {
     icon: categories.icon,
   })
 
+  // O slug acompanha o nome enquanto ainda for o gerado automaticamente; um slug personalizado é preservado
+  const isSlugCustom = (slug: string, name: string) => slug !== slugify(name)
+  const [isSlugEditedManually, setIsSlugEditedManually] = useState(() => isSlugCustom(categories.slug, categories.name))
+
+  // Assinatura explícita: o React Compiler memoriza o componente e uma leitura via watch não re-renderizaria
+  const slug = useWatch({ control: form.control, name: 'slug' })
+  const isSlugChanged = slug.trim() !== '' && slug !== categories.slug
+
+  function handleNameChange(value: string) {
+    form.setValue('name', value, { shouldDirty: true, shouldValidate: form.formState.isSubmitted })
+
+    if (!isSlugEditedManually) {
+      form.setValue('slug', slugify(value), { shouldDirty: true, shouldValidate: form.formState.isSubmitted })
+    }
+  }
+
+  function handleSlugChange(value: string) {
+    form.setValue('slug', value, { shouldDirty: true, shouldValidate: form.formState.isSubmitted })
+    setIsSlugEditedManually(value.trim() !== '')
+  }
+
+  // Cada abertura parte dos dados salvos, inclusive o vínculo entre nome e slug
+  function handleOpenChange(open: boolean) {
+    if (open) {
+      form.reset()
+      setIsSlugEditedManually(isSlugCustom(categories.slug, categories.name))
+    }
+
+    setIsDialogOpen(open)
+  }
+
   async function handleUpdateCategory({ id, name, slug, icon }: UpdateCategoryFormType) {
     const response = await updateCategory({ id, name, slug, icon })
 
@@ -59,13 +93,18 @@ export function UpdateCategories({ categories }: UpdateCategoryProps) {
   }
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="icon" className="hover:bg-muted">
-          <Edit2 className="size-4" />
-          <span className="sr-only">Editar</span>
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isDialogOpen} onOpenChange={handleOpenChange}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <Button variant="outline" size="icon-sm" className="text-muted-foreground hover:text-foreground">
+              <SquarePen className="size-4" />
+              <span className="sr-only">Editar categoria</span>
+            </Button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>Editar categoria</TooltipContent>
+      </Tooltip>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Editar Informações da Categoria</DialogTitle>
@@ -82,17 +121,15 @@ export function UpdateCategories({ categories }: UpdateCategoryProps) {
                 name="name"
                 render={({ field, formState: { errors } }) => (
                   <FormItem>
-                    <FormLabel>Nome completo:</FormLabel>
+                    <FormLabel>Nome</FormLabel>
                     <FormControl>
-                      <Input {...field} className="rounded-sm" />
+                      <Input {...field} onChange={event => handleNameChange(event.target.value)} className="rounded-sm" />
                     </FormControl>
 
                     {errors.name ? (
                       <FormMessage className="text-destructive text-xs">{errors.name.message}</FormMessage>
                     ) : (
-                      <FormDescription className="text-muted-foreground text-xs">
-                        Por favor, insira o nome completo da categoria
-                      </FormDescription>
+                      <FormDescription className="text-muted-foreground text-xs">Nome como aparece no site</FormDescription>
                     )}
                   </FormItem>
                 )}
@@ -103,16 +140,25 @@ export function UpdateCategories({ categories }: UpdateCategoryProps) {
                 name="slug"
                 render={({ field, formState: { errors } }) => (
                   <FormItem>
-                    <FormLabel>Slug da Categoria:</FormLabel>
+                    <FormLabel>Slug</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ex: sao-luis" {...field} className="rounded-sm placeholder:text-xs" />
+                      <Input
+                        placeholder="Ex: alimentacao"
+                        {...field}
+                        onChange={event => handleSlugChange(event.target.value)}
+                        className="rounded-sm placeholder:text-xs"
+                      />
                     </FormControl>
 
                     {errors.slug ? (
                       <FormMessage className="text-destructive text-xs">{errors.slug.message}</FormMessage>
+                    ) : isSlugChanged ? (
+                      <FormDescription className="text-amber-700 text-xs">
+                        O endereço da categoria muda e links antigos para ela deixam de funcionar.
+                      </FormDescription>
                     ) : (
                       <FormDescription className="text-muted-foreground text-xs">
-                        Use apenas letras minúsculas e hífens.
+                        Gerado a partir do nome. Use apenas letras minúsculas e hífens.
                       </FormDescription>
                     )}
                   </FormItem>
@@ -124,7 +170,7 @@ export function UpdateCategories({ categories }: UpdateCategoryProps) {
                 name="icon"
                 render={({ field, formState: { errors } }) => (
                   <FormItem>
-                    <FormLabel>Ícone (Opcional):</FormLabel>
+                    <FormLabel>Ícone (opcional)</FormLabel>
                     <FormControl>
                       <Input {...field} className="rounded-sm" />
                     </FormControl>

@@ -22,7 +22,8 @@ type useProfileFormProps = {
 
 export function useProfileForm({ name, email, role }: useProfileFormProps) {
   return useForm<ProfileFormType>({
-    shouldUnregister: true,
+    // email e role não são editáveis nem renderizados como campo; mantê-los registrados preserva a validação
+    shouldUnregister: false,
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
       name: name || '',

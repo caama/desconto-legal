@@ -7,6 +7,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import type { City } from '@/generated/prisma/client'
 import { cn } from '@/lib/utils'
+import { formatCityName } from '@/utils/format-city-name'
 import { AnimatedCard } from './animated-card'
 
 type CityCardLinkProps = {
@@ -53,7 +54,7 @@ export function CityCardLink({ city }: CityCardLinkProps) {
             </div>
 
             <div className="flex-1">
-              <h4 className="font-semibold text-foreground group-hover:text-primary">{city.name}</h4>
+              <h4 className="font-semibold text-foreground group-hover:text-primary">{formatCityName(city.name)}</h4>
               {city.isThirst ? (
                 <span className="flex items-center gap-1.5 text-pribg-primary text-xs">
                   <div className="size-2 animate-pulse rounded-full bg-primary" />

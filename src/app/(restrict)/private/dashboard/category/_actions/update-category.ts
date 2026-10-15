@@ -32,6 +32,14 @@ export async function updateCategory({ id, name, slug, icon }: CategoryFormType)
     }
   }
 
+  // Gerenciar categorias é exclusivo de administradores (a página já restringe, mas a action pode ser chamada direto)
+  if (session.user.role !== 'ADMIN') {
+    return {
+      status: 403,
+      error: 'Apenas administradores podem gerenciar categorias',
+    }
+  }
+
   const schema = categoryFormSchema.safeParse({
     id,
     name,

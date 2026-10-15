@@ -1,18 +1,19 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { Inbox } from 'lucide-react'
+import { format, isValid, parseISO } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
+import { ShieldCheck, TriangleAlert, UserRound } from 'lucide-react'
 import Image from 'next/image'
-import { useRouter, useSearchParams } from 'next/navigation'
-import z from 'zod'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { useSession } from 'next-auth/react'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { API } from '@/lib/axios'
 import { cn } from '@/lib/utils'
-import { FilterUsers } from './filter-users'
+import { getAvatarColor, getInitials } from '@/utils/avatar'
+import { StatusTabs, useStatusParam } from '../../_components/status-tabs'
+import { PAGE_SIZE_OPTIONS, TablePagination } from '../../_components/table-pagination'
+import { TableSearch, useTableParams } from '../../_components/table-search'
 import { InactiveUser } from './inactive-user'
-import { PaginationUsers } from './pagination-users'
 import { UpdateUsers } from './update-users'
 import { UsersTableSkeleton } from './users-skeleton'
 
@@ -24,73 +25,70 @@ interface UserProps {
     image: string | null
     inactive: Date | null
     role: 'ADMIN' | 'MEMBER'
+    createdAt: string
   }[]
   total: number
+  activeCount: number
+  inactiveCount: number
+}
+
+function formatCreatedAt(value: string) {
+  const date = parseISO(value)
+  return isValid(date) ? format(date, 'dd MMM. yyyy', { locale: ptBR }) : '—'
 }
 
 export function UserContent() {
-  const searchParams = useSearchParams()
-  const router = useRouter()
+  const { data: session } = useSession()
+  const { status, setStatus } = useStatusParam()
 
-  const page = z.coerce.number().parse(searchParams.get('page') || '1')
-  const name = searchParams.get('name') || ''
-  const email = searchParams.get('email') || ''
+  const { page, perPage, search, setPage, setPerPage } = useTableParams(PAGE_SIZE_OPTIONS)
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['users', page, name, email],
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['users', status, page, perPage, search],
     queryFn: async () => {
       const response = await API.get<UserProps>('/api/users/get-all-users', {
-        params: {
-          page,
-          name,
-          email,
-        },
+        params: { page, perPage, search, status },
       })
 
       return response.data
     },
-    staleTime: Number.POSITIVE_INFINITY, // Significa que o cache nunca vai expirar
+    staleTime: Number.POSITIVE_INFINITY,
   })
 
-  function handlePageChange(page: number) {
-    // Cria uma instância de URLSearchParams baseada nos parâmetros de busca atuais
-    const params = new URLSearchParams(searchParams.toString())
-
-    // Atualiza o parâmetro "page" com o novo índice da página
-    params.set('page', page.toString())
-
-    // Atualiza a URL no navegador sem recarregar a página
-    router.push(`?${params.toString()}`)
-  }
-
   return (
-    <main className="mx-auto">
-      <Card className="mx-auto mt-8">
-        <CardHeader>
-          <CardTitle className="font-bold text-lg md:text-2xl">Gerenciamento de Usuários</CardTitle>
-          <CardDescription className="text-sm md:text-base">Gerencie todos os usuários do sistema</CardDescription>
-        </CardHeader>
+    <div className="space-y-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <StatusTabs
+          status={status}
+          onChange={setStatus}
+          activeCount={data?.activeCount}
+          inactiveCount={data?.inactiveCount}
+          labels={{ active: 'Ativos', inactive: 'Inativos' }}
+          ariaLabel="Situação dos usuários"
+        />
 
-        <CardContent className="space-y-3 overflow-x-auto">
-          <FilterUsers />
+        <TableSearch placeholder="Busque por nome ou e-mail" ariaLabel="Buscar usuário por nome ou e-mail" />
+      </div>
 
-          <div className="rounded-sm border p-2">
-            <Table className="w-full overflow-x-auto text-sm">
-              {data?.users.length === 0 && (
-                <TableCaption className="pb-4 text-muted-foreground text-sm">
-                  <div className="flex items-center justify-center gap-2">
-                    <Inbox className="size-5" />
-                    <p className="text-center text-sm">Nenhum usuário cadastrado</p>
-                  </div>
-                </TableCaption>
-              )}
-
+      {isError ? (
+        <div
+          role="alert"
+          className="flex items-start gap-2.5 rounded-xl border border-destructive/25 bg-destructive/6 px-4 py-3.5 text-destructive"
+        >
+          <TriangleAlert className="mt-px size-4 shrink-0" />
+          <span className="text-sm leading-snug">
+            Não foi possível carregar os usuários agora. Recarregue a página e, se continuar assim, verifique sua conexão.
+          </span>
+        </div>
+      ) : (
+        <>
+          <div className="overflow-hidden rounded-md border bg-card">
+            <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead className="w-64">Usuário</TableHead>
-                  <TableHead className="hidden md:table-cell">E-mail</TableHead>
-                  <TableHead className="hidden md:table-cell">Função</TableHead>
-                  <TableHead className="text-center">Status</TableHead>
+                <TableRow className="hover:bg-transparent">
+                  <TableHead>Usuário</TableHead>
+                  <TableHead className="hidden sm:table-cell">Papel</TableHead>
+                  <TableHead className="hidden lg:table-cell">Data da criação</TableHead>
                   <TableHead className="text-center">Ações</TableHead>
                 </TableRow>
               </TableHeader>
@@ -98,76 +96,103 @@ export function UserContent() {
               <TableBody>
                 {isLoading && <UsersTableSkeleton />}
 
-                {data &&
-                  data.users.map(user => (
-                    <TableRow key={user.id} className="hover:bg-muted/50">
-                      {/* User Info */}
-                      <TableCell className="font-medium">
-                        <div className="flex items-center gap-3">
-                          <div className="relative h-10 w-10">
+                {data && data.users.length === 0 && (
+                  <TableRow className="hover:bg-transparent">
+                    <TableCell colSpan={4} className="h-24 text-center text-muted-foreground text-sm">
+                      {search
+                        ? 'Nenhum usuário encontrado para essa busca.'
+                        : status === 'active'
+                          ? 'Nenhum usuário ativo. Os usuários aparecem aqui depois do primeiro acesso com Google.'
+                          : 'Nenhum usuário inativo.'}
+                    </TableCell>
+                  </TableRow>
+                )}
+
+                {data?.users.map(user => {
+                  const isAdmin = user.role === 'ADMIN'
+                  const isCurrentUser = session?.user.id === user.id
+
+                  return (
+                    <TableRow key={user.id}>
+                      <TableCell className="py-3">
+                        <div className="flex min-w-0 items-center gap-3">
+                          {user.image ? (
                             <Image
-                              src={user.image || ''}
+                              src={user.image}
                               referrerPolicy="no-referrer"
-                              alt={user.name || ''}
-                              fill
-                              className="rounded-full object-cover"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              alt=""
+                              width={40}
+                              height={40}
+                              className="size-10 shrink-0 rounded-full object-cover ring-1 ring-border"
                             />
-                          </div>
-                          <div>
-                            <p className="font-medium text-foreground">{user.name}</p>
-                            <p className="text-muted-foreground text-xs md:hidden">{user.email}</p>
+                          ) : (
+                            <span
+                              className={cn(
+                                'flex size-10 shrink-0 items-center justify-center rounded-full font-medium text-sm',
+                                getAvatarColor(user.id)
+                              )}
+                              aria-hidden="true"
+                            >
+                              {getInitials(user.name, user.email)}
+                            </span>
+                          )}
+
+                          <div className="flex min-w-0 max-w-52 flex-col gap-0.5 sm:max-w-72">
+                            <span className="flex items-center gap-1.5">
+                              <span className="truncate font-medium">{user.name || 'Sem nome'}</span>
+                              {isCurrentUser && (
+                                <span className="shrink-0 rounded-full bg-muted px-1.5 font-medium text-[10px] text-muted-foreground leading-4">
+                                  Você
+                                </span>
+                              )}
+                            </span>
+                            <span className="truncate text-muted-foreground text-xs">{user.email}</span>
                           </div>
                         </div>
                       </TableCell>
 
-                      {/* Email */}
-                      <TableCell className="hidden text-foreground md:table-cell">{user.email}</TableCell>
-
-                      {/* Role */}
-                      <TableCell className="hidden md:table-cell">
-                        <Badge
-                          className={cn('bg-primary/10 text-primary hover:bg-primary/20', {
-                            'bg-destructive/10 text-destructive hover:bg-destructive/20': user.role === 'ADMIN',
-                          })}
-                        >
-                          {user.role === 'ADMIN' ? 'Administrador' : 'Membro'}
-                        </Badge>
+                      <TableCell className="hidden sm:table-cell">
+                        {isAdmin ? (
+                          <span className="inline-flex items-center gap-1 rounded-full border border-violet-500/25 bg-violet-500/10 px-2 py-0.5 font-medium text-violet-700 text-xs">
+                            <ShieldCheck className="size-3.5" aria-hidden="true" />
+                            Administrador
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 rounded-full border bg-muted px-2 py-0.5 font-medium text-muted-foreground text-xs">
+                            <UserRound className="size-3.5" aria-hidden="true" />
+                            Membro
+                          </span>
+                        )}
                       </TableCell>
 
-                      {/* Status */}
-                      <TableCell className="text-center">
-                        <Badge
-                          className={
-                            user.inactive
-                              ? 'bg-muted text-muted-foreground'
-                              : 'bg-green-500/10 text-emerald-600 dark:text-emerald-400'
-                          }
-                        >
-                          {user.inactive ? 'Inativo' : 'Ativo'}
-                        </Badge>
+                      <TableCell className="hidden text-muted-foreground tabular-nums lg:table-cell">
+                        {formatCreatedAt(user.createdAt)}
                       </TableCell>
 
-                      {/* Actions */}
-                      <TableCell className="text-center">
-                        <div className="flex items-center justify-center gap-2">
-                          {/* Componente de edição */}
+                      <TableCell>
+                        <div className="flex items-center justify-center gap-1">
                           <UpdateUsers user={user} />
-
-                          {/* Componente de inativação */}
-                          <InactiveUser user={user} />
+                          <InactiveUser user={user} isCurrentUser={isCurrentUser} />
                         </div>
                       </TableCell>
                     </TableRow>
-                  ))}
+                  )
+                })}
               </TableBody>
             </Table>
           </div>
 
-          {/* Componente de paginação */}
-          <PaginationUsers page={page} onPageChange={handlePageChange} totalCount={data?.total ?? 0} />
-        </CardContent>
-      </Card>
-    </main>
+          <TablePagination
+            itemLabel={['usuário', 'usuários']}
+            page={page}
+            perPage={perPage}
+            totalCount={data?.total ?? 0}
+            isLoading={isLoading}
+            onPageChange={setPage}
+            onPerPageChange={setPerPage}
+          />
+        </>
+      )}
+    </div>
   )
 }
