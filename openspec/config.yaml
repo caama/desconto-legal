@@ -1,0 +1,25 @@
+schema: spec-driven
+
+context: |
+  Desconto Legal (CAAMA): web app de empresas conveniadas por cidade e categoria,
+  com área pública e painel administrativo.
+  Stack: Next.js 16 (App Router) + React 19, TypeScript, Prisma 7 + PostgreSQL,
+  Auth.js (Google), Supabase Storage self-hosted (CDN de imagens), Tailwind v4 + Radix UI,
+  TanStack Query, react-hook-form + zod. Lint/format com Biome. Gerenciador: pnpm.
+  Idioma do produto e dos commits: português.
+
+  Ambientes: homologação (remote `homo`, caama/desconto-legal-dev,
+  https://descontolegal-dev.caama.org.br) e produção (remote `origin`,
+  caama/desconto-legal, https://descontolegal.caama.org.br). Cada um com branches
+  dev e main, web na Vercel; banco e CDN no Coolify da CAAMA (VPS Hostinger).
+  Toda mudança vai primeiro para homologação (dev → main), é validada, e só depois
+  vai para produção.
+
+  O build roda `prisma migrate deploy`: migrations são aplicadas no banco do
+  ambiente a cada deploy.
+
+rules:
+  proposal:
+    - Se a mudança alterar o schema do Prisma, descrever a migration e seu impacto em dados existentes de produção.
+  tasks:
+    - Incluir uma tarefa de validação em homologação antes do deploy em produção.
