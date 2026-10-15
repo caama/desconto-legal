@@ -1,7 +1,7 @@
 'use client'
 
 import { useQueryClient } from '@tanstack/react-query'
-import { Trash2, Upload, X } from 'lucide-react'
+import { Trash2, Upload } from 'lucide-react'
 import Image from 'next/image'
 import { type ChangeEvent, useState } from 'react'
 import { ImSpinner2 } from 'react-icons/im'

@@ -47,7 +47,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
             href={`/city/${company.city.slug}/companies`}
             className="group flex items-center gap-2 font-medium text-muted-foreground text-sm transition-colors hover:text-foreground"
           >
-            <ArrowLeft className="group-hover:-translate-x-1 mr-2 size-4 text-foreground/80 transition-transform duration-200" />
+            <ArrowLeft className="mr-2 size-4 text-foreground/80 transition-transform duration-200 group-hover:-translate-x-1" />
             <span className="hidden sm:inline">Voltar para {company.city.name}</span>
             <span className="sm:hidden">Voltar</span>
           </Link>

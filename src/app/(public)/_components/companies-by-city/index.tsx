@@ -44,7 +44,7 @@ export function CompaniesByCityContent({ city, query, categories: rawCategories 
         <div className="container mx-auto flex items-center justify-between px-4 py-2">
           <div className="flex items-center gap-4">
             <Link href="/" className="group">
-              <ArrowLeft className="group-hover:-translate-x-1 mr-2 size-4 text-foreground/80 transition-transform duration-200" />
+              <ArrowLeft className="mr-2 size-4 text-foreground/80 transition-transform duration-200 group-hover:-translate-x-1" />
             </Link>
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">

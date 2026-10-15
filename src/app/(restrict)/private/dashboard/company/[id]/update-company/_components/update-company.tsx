@@ -113,7 +113,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
             className="group ml-auto flex items-center gap-2 font-bold text-muted hover:bg-transparent hover:text-muted sm:ml-0 md:text-base"
             onClick={() => router.back()}
           >
-            <ArrowLeft className="group-hover:-translate-x-1 size-4 text-muted transition-transform duration-200" />
+            <ArrowLeft className="size-4 text-muted transition-transform duration-200 group-hover:-translate-x-1" />
             Voltar
           </Button>
         </CardHeader>
@@ -144,7 +144,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                         </FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <Building2 className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <Building2 className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
                               placeholder="Clínica Vida Plena"
                               {...field}
@@ -168,7 +168,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                         </FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <FileText className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <FileText className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
                               placeholder="Digite o CPF ou CNPJ"
                               className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
@@ -194,7 +194,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                         <FormLabel>Responsável</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <User className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <User className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
                               placeholder="Nome do responsável"
                               className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
@@ -218,7 +218,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                         </FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <Hash className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <Hash className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
                               placeholder="clinica-vida-plena"
                               {...field}
@@ -331,7 +331,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                         <FormLabel>Telefone</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <FaPhoneAlt className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <FaPhoneAlt className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
                               placeholder="(98) 2152-3456"
                               className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
@@ -366,7 +366,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                         </FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <FaWhatsapp className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <FaWhatsapp className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
                               placeholder="(98) 98329-1170"
                               className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
@@ -404,7 +404,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
 
                         <FormControl>
                           <div className="relative">
-                            <Mail className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <Mail className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
                               placeholder="contato@empresa.com.br"
                               {...field}
@@ -428,7 +428,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                         </FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <FaInstagram className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <FaInstagram className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
                               placeholder="vida-plena"
                               {...field}
@@ -458,7 +458,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                       </FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <MapPin className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                          <MapPin className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                           <Input
                             placeholder="Rua, Avenida, etc."
                             autoComplete="off"
@@ -505,7 +505,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                         </FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <LocateFixed className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <LocateFixed className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
                               placeholder="65010-000"
                               className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
@@ -539,7 +539,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                         <FormLabel>Data de início do contrato</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <CalendarClock className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <CalendarClock className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                             <DatePicker
                               date={field.value as Date | null | undefined}
                               setDate={field.onChange}
@@ -577,7 +577,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                         <FormLabel>Data de término do contrato</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <CalendarClock className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <CalendarClock className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                             <DatePicker
                               date={field.value as Date | null | undefined}
                               setDate={field.onChange}
