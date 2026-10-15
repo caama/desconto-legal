@@ -25,10 +25,10 @@ const newCompanyFormSchema = z
     slug: z
       .string()
       .trim()
+      .nonempty({ message: 'O slug é obrigatório' })
       .regex(/^[a-z]+(?:-[a-z]+)*$/, {
         message: 'Use apenas letras minúsculas e hífens',
-      })
-      .nonempty(),
+      }),
     description: z.string().trim().nonempty({
       message: 'A descrição é obrigatória',
     }),

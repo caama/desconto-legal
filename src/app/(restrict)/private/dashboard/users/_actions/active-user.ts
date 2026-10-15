@@ -21,6 +21,14 @@ export async function activeUser({ id }: ActiveUserFormType) {
     }
   }
 
+  // Gerenciar usuários é exclusivo de administradores (a página já restringe, mas a action pode ser chamada direto)
+  if (session.user.role !== 'ADMIN') {
+    return {
+      status: 403,
+      error: 'Apenas administradores podem gerenciar usuários',
+    }
+  }
+
   const schema = activeUserFormSchema.safeParse({
     id,
   })

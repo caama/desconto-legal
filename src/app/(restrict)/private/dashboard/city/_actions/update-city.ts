@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { formatCityName } from '@/utils/format-city-name'
 
 const cityFormSchema = z.object({
   id: z.cuid(),
@@ -29,6 +30,14 @@ export async function updateProfile({ id, name, slug, isThirst }: CityFormType) 
     return {
       status: 401,
       error: 'Usuário não autenticado',
+    }
+  }
+
+  // Gerenciar cidades é exclusivo de administradores (a página já restringe, mas a action pode ser chamada direto)
+  if (session.user.role !== 'ADMIN') {
+    return {
+      status: 403,
+      error: 'Apenas administradores podem gerenciar cidades',
     }
   }
 
@@ -62,7 +71,7 @@ export async function updateProfile({ id, name, slug, isThirst }: CityFormType) 
   // 🔹 Verifica se já existe OUTRA cidade com mesmo nome ou slug
   const duplicateCity = await prisma.city.findFirst({
     where: {
-      OR: [{ name }, { slug }],
+      OR: [{ name: { equals: formatCityName(name), mode: 'insensitive' } }, { slug }],
       NOT: { id },
     },
     select: { id: true, name: true, slug: true },
@@ -81,7 +90,7 @@ export async function updateProfile({ id, name, slug, isThirst }: CityFormType) 
         id: id,
       },
       data: {
-        name,
+        name: formatCityName(name),
         slug,
         isThirst,
       },

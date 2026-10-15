@@ -6,47 +6,40 @@ type SidebarLinkProps = {
   href: string
   icon: React.ReactNode
   label: string
-  pathname: string
+  isActive: boolean
   isCollapsed: boolean
-  setIsSheetOpen: (open: boolean) => void
+  onNavigate?: () => void
 }
 
-export function SidebarLink({ href, icon, label, pathname, isCollapsed, setIsSheetOpen }: SidebarLinkProps) {
-  return (
-    <Link href={href}>
-      {!isCollapsed ? (
-        <button
-          type="button"
-          className={cn(
-            'flex w-full items-center gap-2 rounded-md border px-4 py-2 text-primary text-sm transition-colors hover:bg-primary hover:text-white',
-            {
-              'bg-primary text-white': pathname === href,
-            }
-          )}
-          onClick={() => setIsSheetOpen(false)}
-        >
-          <span>{icon}</span>
-          {!isCollapsed && <span className="font-medium">{label}</span>}
-        </button>
-      ) : (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <span
-              className={cn(
-                'flex size-9 items-center justify-center gap-2 rounded-md border text-primary transition-colors hover:bg-primary hover:text-white',
-                {
-                  'bg-primary text-white': pathname === href,
-                }
-              )}
-            >
-              {icon}
-            </span>
-          </TooltipTrigger>
-          <TooltipContent sideOffset={10} side="right">
-            <p>{label}</p>
-          </TooltipContent>
-        </Tooltip>
+export function SidebarLink({ href, icon, label, isActive, isCollapsed, onNavigate }: SidebarLinkProps) {
+  const link = (
+    <Link
+      href={href}
+      onClick={onNavigate}
+      aria-current={isActive ? 'page' : undefined}
+      className={cn(
+        'flex h-9 items-center rounded-md font-medium text-sm outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-primary/40',
+        isCollapsed ? 'w-9 justify-center' : 'gap-3 px-3',
+        isActive
+          ? 'bg-primary text-primary-foreground shadow-xs'
+          : 'text-foreground/70 hover:bg-sidebar-accent hover:text-foreground'
       )}
+    >
+      <span className="flex size-4 shrink-0 items-center justify-center [&>svg]:size-4" aria-hidden="true">
+        {icon}
+      </span>
+      {isCollapsed ? <span className="sr-only">{label}</span> : <span className="truncate">{label}</span>}
     </Link>
+  )
+
+  if (!isCollapsed) return link
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{link}</TooltipTrigger>
+      <TooltipContent side="right" sideOffset={10}>
+        {label}
+      </TooltipContent>
+    </Tooltip>
   )
 }

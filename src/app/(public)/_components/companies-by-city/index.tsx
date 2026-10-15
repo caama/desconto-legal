@@ -3,6 +3,7 @@
 import { useQueries } from '@tanstack/react-query'
 import { ArrowLeft, Building2, MapPin } from 'lucide-react'
 import Link from 'next/link'
+import { formatCityName } from '@/utils/format-city-name'
 import { getActiveCategories } from '../../_dal/get-active-categories'
 import { getCompaniesByCity } from '../../_dal/get-companies-by-city'
 import { Shared } from '../header/shared'
@@ -55,7 +56,7 @@ export function CompaniesByCityContent({ city, query, categories: rawCategories 
                 <MapPin className="size-5 text-primary-foreground" aria-hidden="true" />
               </div>
               <div className="min-w-0">
-                <h1 className="truncate font-bold text-foreground text-lg leading-tight">{city.name}</h1>
+                <h1 className="truncate font-bold text-foreground text-lg leading-tight">{formatCityName(city.name)}</h1>
                 <p className="text-muted-foreground text-xs tabular-nums">
                   {city._count.companies} {city._count.companies === 1 ? 'empresa conveniada' : 'empresas conveniadas'}
                 </p>
@@ -63,7 +64,10 @@ export function CompaniesByCityContent({ city, query, categories: rawCategories 
             </div>
           </div>
 
-          <Shared url={`${process.env.NEXT_PUBLIC_BASE_URL}/city/${city.slug}/companies`} />
+          <Shared
+            url={`${process.env.NEXT_PUBLIC_BASE_URL}/city/${city.slug}/companies`}
+            title={`Empresas conveniadas em ${formatCityName(city.name)} com desconto para advogados da OAB-MA`}
+          />
         </div>
       </header>
 
@@ -75,7 +79,7 @@ export function CompaniesByCityContent({ city, query, categories: rawCategories 
             <Building2 className="size-5" aria-hidden="true" />
           </div>
           <div>
-            <h2 className="font-semibold text-base sm:text-lg">Empresas Conveniadas em {city.name}</h2>
+            <h2 className="font-semibold text-base sm:text-lg">Empresas Conveniadas em {formatCityName(city.name)}</h2>
             <p className="mt-1 text-primary-foreground/80 text-sm">
               Apresente sua carteira da OAB-MA para garantir os descontos e benefícios exclusivos.
             </p>

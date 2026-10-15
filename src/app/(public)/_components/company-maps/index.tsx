@@ -1,47 +1,39 @@
-'use client'
-
 import { ExternalLink } from 'lucide-react'
 import { FcGoogle } from 'react-icons/fc'
 import { Button } from '@/components/ui/button'
-import type { City, Company } from '@/generated/prisma/client'
+import { getCompanyFullAddress } from '@/utils/get-company-full-address'
 
-type CompanyProps = {
-  company: Company & { city: City }
+type CompanyMapsProps = {
+  company: {
+    address: string
+    neighborhood: string
+    zipCode: string
+    city: { name: string }
+  }
 }
 
-export function CompanyMaps({ company }: CompanyProps) {
-  function handleAccessLinkExternalMaps() {
-    if (!company) return
-
-    const fullAddress = [company.address, company.neighborhood, company.city.name, company.zipCode]
-      .filter(Boolean) // remove undefined/null
-      .join(', ')
-
-    const encodedAddress = encodeURIComponent(fullAddress)
-
-    window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`, '_blank')
-  }
-
-  function handleAccessLinkGoogleMaps() {
-    if (!company) return
-
-    const encodedAddress = encodeURIComponent(
-      `${company.address}, ${company.neighborhood}, ${company.city.name}, ${company.zipCode}`
-    )
-
-    window.open(`https://www.google.com/maps/search/${encodedAddress}`, '_blank')
-  }
+// Links de verdade (e não window.open): abrem em nova aba, aceitam clique do meio e funcionam no teclado
+export function CompanyMaps({ company }: CompanyMapsProps) {
+  const encodedAddress = encodeURIComponent(getCompanyFullAddress(company))
 
   return (
     <>
-      <Button onClick={handleAccessLinkExternalMaps} variant="outline" size="sm" className="w-full sm:w-auto">
-        <ExternalLink />
-        Como Chegar
+      <Button asChild variant="outline" size="sm" className="w-full sm:w-auto">
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <ExternalLink />
+          Como Chegar
+        </a>
       </Button>
 
-      <Button onClick={handleAccessLinkGoogleMaps} variant="outline" size="sm" className="w-full sm:w-auto">
-        <FcGoogle />
-        Ver no Google Maps
+      <Button asChild variant="outline" size="sm" className="w-full sm:w-auto">
+        <a href={`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`} target="_blank" rel="noopener noreferrer">
+          <FcGoogle />
+          Ver no Google Maps
+        </a>
       </Button>
     </>
   )

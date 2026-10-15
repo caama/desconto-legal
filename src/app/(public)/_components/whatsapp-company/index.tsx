@@ -1,31 +1,34 @@
 'use client'
 
-import Link from 'next/link'
 import { FaWhatsapp } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import { generateWhatsAppLink } from '@/utils/generate-whatsapp-link'
 import { addVisitorInCompany } from '../../_actions/add-visitor-in-company'
 
 type WhatsappCompanyProps = {
   companyId: string
   whatsapp: string
+  label?: string
+  className?: string
 }
 
-export function WhatsappCompany({ companyId, whatsapp }: WhatsappCompanyProps) {
+export function WhatsappCompany({ companyId, whatsapp, label = 'Chamar no WhatsApp', className }: WhatsappCompanyProps) {
   const whatsAppLink = generateWhatsAppLink({
     whatsapp: whatsapp,
   })
 
+  // O clique conta como visita: é o que leva a empresa ao destaque
   async function handleAddVisitor() {
     await addVisitorInCompany({ companyId })
   }
 
   return (
-    <Link href={whatsAppLink} passHref target="_blank">
-      <Button onClick={handleAddVisitor} className="w-full" variant="whatsapp">
+    <Button asChild variant="whatsapp" className={cn('w-full', className)}>
+      <a href={whatsAppLink} target="_blank" rel="noopener noreferrer" onClick={handleAddVisitor}>
         <FaWhatsapp />
-        Chamar no WhatsApp
-      </Button>
-    </Link>
+        {label}
+      </a>
+    </Button>
   )
 }

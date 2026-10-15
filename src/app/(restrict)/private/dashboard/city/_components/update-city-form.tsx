@@ -6,11 +6,11 @@ import z from 'zod'
 
 const updateCityFormSchema = z.object({
   id: z.cuid(),
-  name: z.string().trim().nonempty(),
+  name: z.string().trim().nonempty({ message: 'O nome é obrigatório' }),
   slug: z
     .string()
     .trim()
-    .regex(/^[a-z]+(?:-[a-z]+)*$/)
+    .regex(/^[a-z]+(?:-[a-z]+)*$/, { message: 'Use apenas letras minúsculas e hífens' })
     .nonempty(),
   isThirst: z.boolean(),
 })

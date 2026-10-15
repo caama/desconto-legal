@@ -11,6 +11,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { slugify } from '@/utils/slugify'
 import { createCategory } from '../_actions/create-category'
 import { type NewCategoryFormType, useNewCategoryForm } from './category-form'
 
@@ -27,6 +28,32 @@ export function NewCategory() {
     slug: '',
     icon: '',
   })
+
+  // O slug acompanha o nome até ser editado manualmente (apagar o slug reativa o automático)
+  const [isSlugEditedManually, setIsSlugEditedManually] = useState(false)
+
+  function handleNameChange(value: string) {
+    form.setValue('name', value, { shouldDirty: true, shouldValidate: form.formState.isSubmitted })
+
+    if (!isSlugEditedManually) {
+      form.setValue('slug', slugify(value), { shouldValidate: form.formState.isSubmitted })
+    }
+  }
+
+  function handleSlugChange(value: string) {
+    form.setValue('slug', value, { shouldDirty: true, shouldValidate: form.formState.isSubmitted })
+    setIsSlugEditedManually(value.trim() !== '')
+  }
+
+  // Cada abertura começa do zero, inclusive o vínculo entre nome e slug
+  function handleOpenChange(open: boolean) {
+    if (open) {
+      form.reset()
+      setIsSlugEditedManually(false)
+    }
+
+    setIsSheetOpen(open)
+  }
 
   async function handleNewCategory({ name, slug, icon }: NewCategoryFormType) {
     const response = await createCategory({
@@ -52,7 +79,7 @@ export function NewCategory() {
   }
 
   return (
-    <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+    <Sheet open={isSheetOpen} onOpenChange={handleOpenChange}>
       <SheetTrigger asChild>
         <Button className="mt-2 w-full sm:mt-0 sm:w-fit">
           <Plus className="size-4" />
@@ -75,9 +102,14 @@ export function NewCategory() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nome da Categoria:</FormLabel>
+                    <FormLabel>Nome</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ex: Alimentação" {...field} className="rounded-sm placeholder:text-xs" />
+                      <Input
+                        placeholder="Ex: Alimentação"
+                        {...field}
+                        onChange={event => handleNameChange(event.target.value)}
+                        className="rounded-sm placeholder:text-xs"
+                      />
                     </FormControl>
 
                     <FormMessage className="text-destructive text-xs" />
@@ -90,16 +122,21 @@ export function NewCategory() {
                 name="slug"
                 render={({ field, formState: { errors } }) => (
                   <FormItem>
-                    <FormLabel>Slug da Categoria:</FormLabel>
+                    <FormLabel>Slug</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ex: alimentacao" {...field} className="rounded-sm placeholder:text-xs" />
+                      <Input
+                        placeholder="Ex: alimentacao"
+                        {...field}
+                        onChange={event => handleSlugChange(event.target.value)}
+                        className="rounded-sm placeholder:text-xs"
+                      />
                     </FormControl>
 
                     {errors.slug ? (
                       <FormMessage className="text-destructive text-xs">{errors.slug.message}</FormMessage>
                     ) : (
                       <FormDescription className="text-muted-foreground text-xs">
-                        Use apenas letras minúsculas e hífens.
+                        Gerado a partir do nome. Use apenas letras minúsculas e hífens.
                       </FormDescription>
                     )}
                   </FormItem>
@@ -111,7 +148,7 @@ export function NewCategory() {
                 name="icon"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Ícone (Opcional):</FormLabel>
+                    <FormLabel>Ícone (opcional)</FormLabel>
                     <FormControl>
                       <Input placeholder="Ex: 📚" {...field} className="rounded-sm placeholder:text-xs" />
                     </FormControl>
