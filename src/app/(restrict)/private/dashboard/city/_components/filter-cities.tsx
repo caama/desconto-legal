@@ -49,7 +49,10 @@ export function FilterCities() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleFilterCities)} className="flex w-full flex-col gap-3 sm:flex-row sm:items-center">
+      <form
+        onSubmit={form.handleSubmit(handleFilterCities)}
+        className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
+      >
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
           <span className="font-semibold text-sm">Filtros:</span>
 

@@ -42,7 +42,7 @@ export function SidebarLink({ href, icon, label, pathname, isCollapsed, setIsShe
               {icon}
             </span>
           </TooltipTrigger>
-          <TooltipContent className="bg-primary font-medium text-white" sideOffset={10} side="right">
+          <TooltipContent sideOffset={10} side="right">
             <p>{label}</p>
           </TooltipContent>
         </Tooltip>

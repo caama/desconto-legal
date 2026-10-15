@@ -81,7 +81,7 @@ export function FilterCompanies() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleFilterCompanies)}
-        className="flex w-full flex-col gap-3 sm:flex-row sm:items-center"
+        className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
       >
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
           <span className="font-semibold text-sm">Filtros:</span>

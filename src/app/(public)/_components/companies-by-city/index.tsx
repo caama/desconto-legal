@@ -38,21 +38,25 @@ export function CompaniesByCityContent({ city, query, categories: rawCategories 
   })
 
   return (
-    <div className="min-h-screen bg-primary/5">
+    <div className="min-h-screen bg-primary/4">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-sm">
-        <div className="container mx-auto flex items-center justify-between px-4 py-2">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="group">
-              <ArrowLeft className="mr-2 size-4 text-foreground/80 transition-transform duration-200 group-hover:-translate-x-1" />
+      <header className="sticky top-0 z-50 border-b bg-card/85 backdrop-blur-sm">
+        <div className="container mx-auto flex items-center justify-between gap-3 px-4 py-2.5">
+          <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+            <Link
+              href="/"
+              aria-label="Voltar para a página inicial"
+              className="group flex size-9 shrink-0 items-center justify-center rounded-md text-foreground/80 transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+            >
+              <ArrowLeft className="size-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
             </Link>
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                <MapPin className="h-5 w-5 text-primary-foreground" />
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary">
+                <MapPin className="size-5 text-primary-foreground" aria-hidden="true" />
               </div>
-              <div>
-                <h1 className="font-bold text-foreground text-lg">{city.name}</h1>
-                <p className="text-muted-foreground text-xs">
+              <div className="min-w-0">
+                <h1 className="truncate font-bold text-foreground text-lg leading-tight">{city.name}</h1>
+                <p className="text-muted-foreground text-xs tabular-nums">
                   {city._count.companies} {city._count.companies === 1 ? 'empresa conveniada' : 'empresas conveniadas'}
                 </p>
               </div>
@@ -64,19 +68,17 @@ export function CompaniesByCityContent({ city, query, categories: rawCategories 
       </header>
 
       {/* Content */}
-      <section className="container mx-auto px-4 py-8">
+      <section className="container mx-auto px-4 py-8 sm:py-10">
         {/* Info Banner */}
-        <div className="mb-8 rounded-lg bg-primary p-6 text-primary-foreground">
-          <div className="flex items-start gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-muted bg-muted/10 text-muted">
-              <Building2 className="h-6 w-6" />
-            </div>
-            <div>
-              <h2 className="mb-1 font-semibold text-muted">Empresas Conveniadas em {city.name}</h2>
-              <p className="text-muted/90 text-sm">
-                Apresente sua carteira da OAB-MA para garantir os descontos e benefícios exclusivos.
-              </p>
-            </div>
+        <div className="mb-8 flex items-start gap-4 rounded-xl bg-primary p-5 text-primary-foreground sm:items-center sm:p-6">
+          <div className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-primary-foreground/10 ring-1 ring-primary-foreground/20">
+            <Building2 className="size-5" aria-hidden="true" />
+          </div>
+          <div>
+            <h2 className="font-semibold text-base sm:text-lg">Empresas Conveniadas em {city.name}</h2>
+            <p className="mt-1 text-primary-foreground/80 text-sm">
+              Apresente sua carteira da OAB-MA para garantir os descontos e benefícios exclusivos.
+            </p>
           </div>
         </div>
 

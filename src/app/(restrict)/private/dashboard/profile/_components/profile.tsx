@@ -60,6 +60,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
               <div className="relative mx-auto flex h-25 w-25 overflow-hidden rounded-full md:h-42 md:w-42">
                 <Image
                   src={user.image || ''}
+                  referrerPolicy="no-referrer"
                   alt={user.name || ''}
                   fill
                   priority

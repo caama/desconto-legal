@@ -1,7 +1,7 @@
 'use client'
 
 import { useQueryClient } from '@tanstack/react-query'
-import { Power } from 'lucide-react'
+import { Ban, CircleCheck } from 'lucide-react'
 import { useState } from 'react'
 import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
@@ -16,6 +16,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 import { activeCompany } from '../_actions/active-company'
 import { inactiveCompany } from '../_actions/inactive-company'
 
@@ -71,27 +73,42 @@ export function InactiveCompany({ company }: InactiveCompanyProps) {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          className={company.active ? 'text-destructive hover:bg-destructive/30' : 'text-emerald-600 hover:bg-emerald-500/30'}
-        >
-          <Power className="size-4" />
-          <span className="sr-only">{company.active ? 'Inativar' : 'Ativar'}</span>
-        </Button>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className={cn(
+                'size-7 rounded-md text-muted-foreground',
+                company.active
+                  ? 'hover:bg-destructive/10 hover:text-destructive'
+                  : 'hover:bg-emerald-500/10 hover:text-emerald-700'
+              )}
+            >
+              {company.active ? <Ban className="size-4" /> : <CircleCheck className="size-4" />}
+              <span className="sr-only">{company.active ? 'Inativar empresa' : 'Ativar empresa'}</span>
+            </Button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>{company.active ? 'Inativar empresa' : 'Ativar empresa'}</TooltipContent>
+      </Tooltip>
       <DialogContent>
         <DialogHeader>
           {company.active ? (
             <>
               <DialogTitle>Inativar empresa</DialogTitle>
-              <DialogDescription>Tem certeza que deseja inativar esta empresa?</DialogDescription>
+              <DialogDescription>
+                Tem certeza que deseja inativar esta empresa? Ela deixará de aparecer na listagem pública até ser ativada
+                novamente.
+              </DialogDescription>
             </>
           ) : (
             <>
               <DialogTitle>Ativar empresa</DialogTitle>
-              <DialogDescription>Tem certeza que deseja ativar esta empresa?</DialogDescription>
+              <DialogDescription>
+                Tem certeza que deseja ativar esta empresa? Ela voltará a aparecer na listagem pública.
+              </DialogDescription>
             </>
           )}
         </DialogHeader>
@@ -115,12 +132,12 @@ export function InactiveCompany({ company }: InactiveCompanyProps) {
               {isLoading ? (
                 <>
                   <ImSpinner2 className="animate-spin" />
-                  Desativando...
+                  Inativando...
                 </>
               ) : (
                 <>
-                  <Power className="size-4" />
-                  Desativar
+                  <Ban className="size-4" />
+                  Inativar
                 </>
               )}
             </Button>
@@ -140,7 +157,7 @@ export function InactiveCompany({ company }: InactiveCompanyProps) {
                 </>
               ) : (
                 <>
-                  <Power className="size-4" />
+                  <CircleCheck className="size-4" />
                   Ativar
                 </>
               )}

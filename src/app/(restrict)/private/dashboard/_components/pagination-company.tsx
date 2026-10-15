@@ -15,48 +15,54 @@ export function PaginationCompanies({ page, totalCount, onPageChange }: Paginati
   const pages = Math.ceil(totalCount / perPage) || 1
 
   return (
-    <div className="flex items-center justify-between">
-      <span className="font-medium text-muted-foreground text-xs md:text-sm">Total de empresas: {totalCount}</span>
+    <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
+      <span className="text-muted-foreground text-xs tabular-nums md:text-sm">
+        Total de empresas: <span className="font-semibold text-foreground">{totalCount}</span>
+      </span>
 
-      <span className="font-medium text-muted-foreground text-xs md:text-sm">
+      <span className="text-muted-foreground text-xs tabular-nums md:text-sm">
         Página {page} de {pages}
       </span>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1.5">
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button onClick={() => onPageChange(1)} disabled={page === 1} size="icon-sm" className="rounded-sm">
+            <Button onClick={() => onPageChange(1)} disabled={page === 1} size="icon-sm" variant="outline">
               <ChevronsLeft className="size-4" />
+              <span className="sr-only">Primeira página</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-primary font-medium">Primeira página</TooltipContent>
+          <TooltipContent>Primeira página</TooltipContent>
         </Tooltip>
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button onClick={() => onPageChange(page - 1)} disabled={page === 1} size="icon-sm" className="rounded-sm">
+            <Button onClick={() => onPageChange(page - 1)} disabled={page === 1} size="icon-sm" variant="outline">
               <ChevronLeft className="size-4" />
+              <span className="sr-only">Página anterior</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-primary font-medium">Página anterior</TooltipContent>
+          <TooltipContent>Página anterior</TooltipContent>
         </Tooltip>
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button onClick={() => onPageChange(page + 1)} disabled={page === pages} size="icon-sm" className="rounded-sm">
+            <Button onClick={() => onPageChange(page + 1)} disabled={page === pages} size="icon-sm" variant="outline">
               <ChevronRight className="size-4" />
+              <span className="sr-only">Próxima página</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-primary font-medium">Próxima página</TooltipContent>
+          <TooltipContent>Próxima página</TooltipContent>
         </Tooltip>
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button onClick={() => onPageChange(pages)} disabled={page === pages} size="icon-sm" className="rounded-sm">
+            <Button onClick={() => onPageChange(pages)} disabled={page === pages} size="icon-sm" variant="outline">
               <ChevronsRight className="size-4" />
+              <span className="sr-only">Última página</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-primary font-medium">Última página</TooltipContent>
+          <TooltipContent>Última página</TooltipContent>
         </Tooltip>
       </div>
     </div>

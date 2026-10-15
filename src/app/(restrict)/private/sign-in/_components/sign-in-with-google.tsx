@@ -21,7 +21,7 @@ export function SignInWithGoogle() {
     <Card className="w-full max-w-lg bg-primary-foreground">
       <CardHeader>
         <CardTitle className="mx-auto">
-          <Image src="/assets/logo-caama-2025.png" alt="Logo CAAMA" width={190} height={50} quality={100} />
+          <Image src="/assets/logo-caama-2025.png" alt="Logo CAAMA" width={190} height={48} quality={100} />
         </CardTitle>
         <CardDescription className="mx-auto font-medium">Para entrar, faça login com sua conta Google</CardDescription>
       </CardHeader>

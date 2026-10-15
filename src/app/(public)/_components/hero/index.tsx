@@ -22,7 +22,7 @@ export function Hero() {
               className="mb-10"
               alt="Logo CAAMA"
               width={400}
-              height={100}
+              height={76}
               quality={100}
               priority
             />
@@ -56,7 +56,7 @@ export function Hero() {
             src="/assets/hero.png"
             alt="Foto de conexão entre advogados e empresas"
             width={700}
-            height={600}
+            height={466}
             className="object-contain"
             quality={100}
             priority

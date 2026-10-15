@@ -1,10 +1,11 @@
-import { MapPin, Star, Tag, UserRound, UsersRound } from 'lucide-react'
+import { ArrowRight, MapPin, Star, UserRound, UsersRound } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { ShinyButton } from '@/components/ui/shiny-button'
 import type { CompanyWithRelations } from '../../_dal/get-companies-by-city'
+
+// Exibição do contador oculta a pedido da diretoria da CAAMA.
+// A contagem e o destaque automático (20+ visitantes) continuam ativos em add-visitor-in-company.ts.
+const SHOW_VISITORS = false
 
 interface CompanyCardProps {
   company: CompanyWithRelations
@@ -12,79 +13,87 @@ interface CompanyCardProps {
 
 export function CompanyCard({ company }: CompanyCardProps) {
   return (
-    <Link href={`/city/${company.city.slug}/companies/${company.slug}/details`}>
-      <Card className="group flex h-full flex-col overflow-hidden border-slate-200/80 bg-white p-0 transition-all duration-300 hover:-translate-y-1.25 hover:border-primary hover:shadow-lg">
-        <div className="relative flex min-h-[14px] items-center justify-center border-slate-100 border-b bg-white px-5 py-5 sm:min-h-[14px] sm:px-6 sm:py-6">
+    <Link
+      href={`/city/${company.city.slug}/companies/${company.slug}/details`}
+      className="group rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+    >
+      <article className="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-xs transition-[border-color,box-shadow] duration-200 ease-out group-hover:border-primary/30 group-hover:shadow-[0_8px_24px_-12px_color-mix(in_oklch,var(--primary)_35%,transparent)]">
+        <div className="relative flex h-32 items-center justify-center border-border border-b bg-white px-8">
           {company.logoUrl ? (
             <Image
               src={company.logoUrl}
-              alt={company.name}
+              alt={`Logo de ${company.name}`}
               width={240}
               height={110}
-              className="h-auto max-h-[72px] w-auto max-w-full object-contain drop-shadow-[0_8px_24px_rgba(15,23,42,0.08)] transition-transform duration-300 group-hover:scale-[1.04] sm:max-h-[82px]"
+              className="h-auto max-h-16 w-auto max-w-full object-contain"
               quality={100}
               priority
             />
           ) : (
-            <div className="flex h-16 w-full max-w-[220px] items-center justify-center rounded-2xl border border-slate-200 border-dashed bg-slate-50 px-4 text-center text-slate-400 text-sm">
-              Logo indisponivel
-            </div>
+            <span className="font-semibold text-2xl text-primary/30 uppercase tracking-tight" aria-hidden="true">
+              {company.name.slice(0, 2)}
+            </span>
+          )}
+
+          {company.featured && (
+            <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 font-medium text-[11px] text-amber-800 ring-1 ring-amber-200">
+              <Star className="size-3 fill-amber-400 text-amber-400" aria-hidden="true" />
+              Destaque
+            </span>
           )}
         </div>
 
-        <CardHeader className="space-y-1 px-4 sm:px-5">
-          <div className="flex items-start justify-between gap-2">
-            <div className="flex-1">
-              <CardTitle className="text-base leading-tight group-hover:text-primary sm:text-lg">{company.name}</CardTitle>
-              <CardDescription className="mt-1.5 flex items-center gap-2 text-[11px] sm:text-xs">
-                <MapPin className="size-3" />
-                {company.address}
-              </CardDescription>
-            </div>
-            <div className="flex flex-col items-center gap-3">
-              {company.featured && (
-                <Badge variant="secondary" className="shrink-0">
-                  <Star className="mr-1 h-3 w-3 fill-yellow-400 text-yellow-400" />
-                  Destaque
-                </Badge>
-              )}
-            </div>
+        <div className="flex flex-1 flex-col p-5">
+          <h3 className="line-clamp-2 text-balance font-semibold text-base text-foreground leading-snug">{company.name}</h3>
+
+          <div className="mt-2 space-y-1 text-muted-foreground text-xs">
+            {company.category && (
+              <p className="flex items-center gap-1.5">
+                {company.category.icon && <span aria-hidden="true">{company.category.icon}</span>}
+                <span className="truncate">{company.category.name}</span>
+              </p>
+            )}
+            <p className="flex items-start gap-1.5">
+              <MapPin className="mt-0.5 size-3 shrink-0" aria-hidden="true" />
+              <span className="line-clamp-1">{company.address}</span>
+            </p>
           </div>
 
-          {company.category && (
-            <div className="flex items-center gap-2 text-[11px] text-muted-foreground sm:text-xs">
-              <Tag className="h-3 w-3" />
-              <span>{company.category.name}</span>
-            </div>
-          )}
-        </CardHeader>
-
-        <CardContent className="flex flex-1 flex-col px-4 pb-4 sm:px-5 sm:pb-5">
           {company.description && (
-            <p className="mb-4 line-clamp-2 text-muted-foreground text-xs leading-relaxed sm:text-sm">{company.description}</p>
+            <p className="mt-3 line-clamp-2 text-muted-foreground text-sm leading-relaxed">{company.description}</p>
           )}
 
-          {company.discount && (
-            <ShinyButton className="mt-auto w-full rounded-xl bg-primary px-4 py-2.5 text-center sm:py-3">
-              <p className="font-semibold text-sm text-white">{company.discount}</p>
-            </ShinyButton>
-          )}
-
-          <span className="mt-2.5 flex items-center justify-end gap-1 text-[11px] text-muted-foreground sm:text-xs">
-            {company.visitors === 1 ? (
-              <>
-                <UserRound className="h-3.5 w-3.5" />
-                {company.visitors} visitante
-              </>
-            ) : (
-              <>
-                <UsersRound className="mb-0.5 h-3.5 w-3.5" />
-                {company.visitors} visitantes
-              </>
+          <div className="mt-auto pt-5">
+            {company.discount && (
+              <div className="flex items-center justify-between gap-3 rounded-lg bg-primary/6 px-4 py-3 transition-colors duration-200 group-hover:bg-primary">
+                <span className="font-semibold text-primary text-sm tabular-nums transition-colors duration-200 group-hover:text-primary-foreground">
+                  {company.discount}
+                </span>
+                <ArrowRight
+                  className="size-4 shrink-0 text-primary transition-[transform,color] duration-200 ease-out group-hover:translate-x-0.5 group-hover:text-primary-foreground"
+                  aria-hidden="true"
+                />
+              </div>
             )}
-          </span>
-        </CardContent>
-      </Card>
+
+            {SHOW_VISITORS && (
+              <span className="mt-2.5 flex items-center justify-end gap-1 text-[11px] text-muted-foreground sm:text-xs">
+                {company.visitors === 1 ? (
+                  <>
+                    <UserRound className="h-3.5 w-3.5" />
+                    {company.visitors} visitante
+                  </>
+                ) : (
+                  <>
+                    <UsersRound className="mb-0.5 h-3.5 w-3.5" />
+                    {company.visitors} visitantes
+                  </>
+                )}
+              </span>
+            )}
+          </div>
+        </div>
+      </article>
     </Link>
   )
 }

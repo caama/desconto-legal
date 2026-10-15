@@ -107,6 +107,7 @@ export function UserContent() {
                           <div className="relative h-10 w-10">
                             <Image
                               src={user.image || ''}
+                              referrerPolicy="no-referrer"
                               alt={user.name || ''}
                               fill
                               className="rounded-full object-cover"
