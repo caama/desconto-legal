@@ -24,6 +24,6 @@
 
 ## 5. Deploy
 
-- [ ] 5.1 Push para homologação (`homo dev` → `homo main`) e conferir o build na Vercel
+- [x] 5.1 Push para homologação (`homo dev` → `homo main`) e conferir o build na Vercel
 - [ ] 5.2 Validar manualmente em https://descontolegal-dev.caama.org.br/ (home, cidades, detalhes, login Google, cadastro/edição de empresa com upload de imagem)
 - [ ] 5.3 Após validação, push para produção (`origin dev` → `origin main`)

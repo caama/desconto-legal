@@ -7,6 +7,7 @@ import queryString from 'query-string'
 import { useEffect, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 type CategoryItemProps = {
   category: {
@@ -64,18 +65,28 @@ export function CategoryItem({ category }: CategoryItemProps) {
       key={category.id}
       size="sm"
       variant={isSelected ? 'default' : 'outline'}
-      className="flex shrink-0 cursor-pointer! select-none items-center gap-2 whitespace-nowrap transition-all duration-300 hover:border-primary/70"
+      className={cn(
+        'flex h-9 shrink-0 cursor-pointer! select-none items-center gap-2 whitespace-nowrap rounded-full px-3.5 transition-colors duration-200',
+        !isSelected && 'bg-card hover:border-primary/40 hover:bg-card'
+      )}
+      aria-pressed={isSelected}
       onClick={handleOnSelectCategories}
     >
-      <span>{category.icon}</span>
-      <p>{category.name}</p>
+      {category.icon && <span aria-hidden="true">{category.icon}</span>}
+      <span>{category.name}</span>
       {isPending ? (
-        <Badge variant="secondary" className="ml-2 px-1.5 py-0.5">
+        <Badge variant="secondary" className="ml-0.5 min-w-6 rounded-full px-1.5 py-0.5">
           <Loader2 className="size-3.5 animate-spin" />
         </Badge>
       ) : (
         category._count?.companies > 0 && (
-          <Badge variant="secondary" className="ml-2">
+          <Badge
+            variant="secondary"
+            className={cn(
+              'ml-0.5 min-w-6 rounded-full px-1.5 tabular-nums',
+              isSelected && 'bg-primary-foreground/15 text-primary-foreground'
+            )}
+          >
             {category._count?.companies}
           </Badge>
         )

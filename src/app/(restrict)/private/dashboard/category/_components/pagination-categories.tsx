@@ -29,7 +29,7 @@ export function PaginationCategories({ page, totalCount, onPageChange }: Paginat
               <ChevronsLeft className="size-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-primary font-medium">Primeira página</TooltipContent>
+          <TooltipContent>Primeira página</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -38,7 +38,7 @@ export function PaginationCategories({ page, totalCount, onPageChange }: Paginat
               <ChevronLeft className="size-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-primary font-medium">Página anterior</TooltipContent>
+          <TooltipContent>Página anterior</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -47,7 +47,7 @@ export function PaginationCategories({ page, totalCount, onPageChange }: Paginat
               <ChevronRight className="size-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-primary font-medium">Próxima página</TooltipContent>
+          <TooltipContent>Próxima página</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -56,7 +56,7 @@ export function PaginationCategories({ page, totalCount, onPageChange }: Paginat
               <ChevronsRight className="size-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="border border-white/50 bg-primary font-medium">Última página</TooltipContent>
+          <TooltipContent>Última página</TooltipContent>
         </Tooltip>
       </div>
     </div>

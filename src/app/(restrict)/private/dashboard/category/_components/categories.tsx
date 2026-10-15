@@ -98,7 +98,13 @@ export function CategoriesContent() {
               </TableHeader>
 
               <TableBody>
-                {isLoading && <CategoriesListSkeleton />}
+                {isLoading && (
+                  <TableRow>
+                    <TableCell colSpan={6}>
+                      <CategoriesListSkeleton />
+                    </TableCell>
+                  </TableRow>
+                )}
 
                 {data &&
                   data.categories.map(category => (

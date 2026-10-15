@@ -57,7 +57,7 @@ export function FilterUsers() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleFilterUsers)}
-        className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:space-x-20"
+        className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
       >
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
           <span className="font-semibold text-sm">Filtros:</span>
@@ -78,9 +78,9 @@ export function FilterUsers() {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="w-full sm:w-60">
+              <FormItem className="w-full sm:w-60 lg:w-80">
                 <FormControl>
-                  <Input {...field} placeholder="Busque pelo e-mail" className="h-8 rounded-sm text-sm lg:w-80" />
+                  <Input {...field} placeholder="Busque pelo e-mail" className="h-8 rounded-sm text-sm" />
                 </FormControl>
               </FormItem>
             )}

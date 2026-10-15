@@ -19,7 +19,7 @@ import { SidebarLink } from './sidebar-link'
 export function SidebarDashboard({ children }: { children: React.ReactNode }) {
   const { data: session, update } = useSession()
 
-  const [isCollapsed, setIsCollapsed] = useState(true)
+  const [isCollapsed, setIsCollapsed] = useState(false)
   const [isSheetOpen, setIsSheetOpen] = useState(false)
 
   const router = useRouter()
@@ -34,18 +34,17 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
   return (
     <main className="flex min-h-screen w-full">
-      {/* Menu Sidebar Desktop */}
+      {/* Menu Sidebar Desktop (a partir de lg; abaixo disso usa o menu mobile) */}
       <aside
-        className={cn('z-50 flex h-full flex-col border-r bg-background p-4 transition-all duration-300', {
-          'w-20': isCollapsed,
-          'w-68': !isCollapsed,
-          'hidden md:fixed md:flex md:items-center': true,
-        })}
+        className={cn(
+          'z-40 hidden h-dvh flex-col overflow-y-auto border-r bg-background p-4 transition-[width] duration-300 lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:items-center',
+          isCollapsed ? 'w-20' : 'w-64'
+        )}
       >
         {isCollapsed ? (
-          <Image src="/assets/caama-2025.png" alt="Logo CAAMA" width={50} height={50} quality={100} priority />
+          <Image src="/assets/caama-2025.png" alt="Logo CAAMA" width={50} height={25} quality={100} priority />
         ) : (
-          <Image src="/assets/logo-caama.png" alt="Logo CAAMA" width={220} height={60} quality={100} priority />
+          <Image src="/assets/logo-caama.png" alt="Logo CAAMA" width={220} height={42} quality={100} priority />
         )}
 
         <Separator className="my-4" />
@@ -67,7 +66,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               )}
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="bg-primary font-medium text-white" side={isCollapsed ? 'right' : 'top'}>
+          <TooltipContent side={isCollapsed ? 'right' : 'top'}>
             <p>{isCollapsed ? 'Expandir' : 'Minimizar'}</p>
           </TooltipContent>
         </Tooltip>
@@ -141,6 +140,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               <div className="mt-auto flex flex-col gap-3">
                 <Image
                   src={session.user.image ?? ''}
+                  referrerPolicy="no-referrer"
                   alt={session.user.name ?? ''}
                   width={40}
                   height={40}
@@ -152,9 +152,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                       <LogOut className="size-4" />
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent className="bg-primary font-medium text-white" side="right">
-                    Sair
-                  </TooltipContent>
+                  <TooltipContent side="right">Sair</TooltipContent>
                 </Tooltip>
               </div>
             )}
@@ -227,20 +225,25 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
         </Collapsible>
 
         {!isCollapsed && (
-          <div className="mt-auto flex w-full flex-col space-y-2">
+          <div className="mt-auto flex w-full flex-col space-y-2 pt-4">
             <div className="flex items-center gap-3">
               {session?.user && (
                 <Image
                   src={session.user.image ?? ''}
+                  referrerPolicy="no-referrer"
                   alt={session.user.name ?? ''}
                   width={40}
                   height={40}
-                  className="rounded-full"
+                  className="shrink-0 rounded-full"
                 />
               )}
-              <div className="flex flex-col">
-                <span className="font-medium text-sm">{session?.user.name}</span>
-                <span className="text-muted-foreground text-xs">{session?.user.email}</span>
+              <div className="flex min-w-0 flex-col">
+                <span className="truncate font-medium text-sm" title={session?.user.name ?? undefined}>
+                  {session?.user.name}
+                </span>
+                <span className="truncate text-muted-foreground text-xs" title={session?.user.email ?? undefined}>
+                  {session?.user.email}
+                </span>
               </div>
             </div>
 
@@ -254,20 +257,23 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
         )}
       </aside>
 
-      {/* Menu Sidebar Mobile */}
-      <div
-        className={cn('flex flex-1 flex-col transition-all duration-300', {
-          'md:ml-20': isCollapsed,
-          'md:ml-64': !isCollapsed,
-        })}
-      >
-        <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-md md:hidden">
+      {/* Menu Sidebar Mobile (abaixo de lg) */}
+      <div className={cn('flex min-w-0 flex-1 flex-col transition-[margin] duration-300', isCollapsed ? 'lg:ml-20' : 'lg:ml-64')}>
+        <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-md lg:hidden">
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-            <div className="flex items-center justify-between px-4 py-2">
-              <Image src="/assets/logo-caama.png" alt="Logo CAAMA" width={220} height={60} quality={100} priority />
+            <div className="flex items-center justify-between gap-4 px-4 py-2">
+              <Image
+                src="/assets/logo-caama.png"
+                alt="Logo CAAMA"
+                width={220}
+                height={42}
+                quality={100}
+                priority
+                className="h-auto w-44 sm:w-55"
+              />
 
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="md:hidden" onClick={() => setIsCollapsed(false)}>
+                <Button variant="outline" size="icon" aria-label="Abrir menu">
                   <CiMenuFries className="size-4" />
                 </Button>
               </SheetTrigger>
@@ -276,7 +282,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
             <SheetContent side="right">
               <SheetHeader className="border-b bg-card/80 p-2">
                 <SheetTitle>
-                  <Image src="/assets/logo-caama.png" alt="Logo CAAMA" width={220} height={60} quality={100} priority />
+                  <Image src="/assets/logo-caama.png" alt="Logo CAAMA" width={220} height={42} quality={100} priority />
                 </SheetTitle>
                 <SheetDescription className="sr-only" />
               </SheetHeader>
@@ -288,7 +294,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                   icon={<Building2 className="size-4" />}
                   label="Empresas"
                   pathname={pathname}
-                  isCollapsed={isCollapsed}
+                  isCollapsed={false}
                   setIsSheetOpen={setIsSheetOpen}
                 />
 
@@ -297,7 +303,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                   icon={<PlusCircle className="size-4" />}
                   label="Nova Empresa"
                   pathname={pathname}
-                  isCollapsed={isCollapsed}
+                  isCollapsed={false}
                   setIsSheetOpen={setIsSheetOpen}
                 />
                 {session && session.user.role === 'ADMIN' && (
@@ -307,7 +313,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                       icon={<Layers className="size-4" />}
                       label="Categorias"
                       pathname={pathname}
-                      isCollapsed={isCollapsed}
+                      isCollapsed={false}
                       setIsSheetOpen={setIsSheetOpen}
                     />
                     <SidebarLink
@@ -315,7 +321,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                       icon={<LuMapPinHouse className="size-4" />}
                       label="Cidades"
                       pathname={pathname}
-                      isCollapsed={isCollapsed}
+                      isCollapsed={false}
                       setIsSheetOpen={setIsSheetOpen}
                     />
                     <SidebarLink
@@ -323,7 +329,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                       icon={<User className="size-4" />}
                       label="Usuários"
                       pathname={pathname}
-                      isCollapsed={isCollapsed}
+                      isCollapsed={false}
                       setIsSheetOpen={setIsSheetOpen}
                     />
                   </>
@@ -339,7 +345,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                   icon={<RiProfileLine className="size-4" />}
                   label="Perfil"
                   pathname={pathname}
-                  isCollapsed={isCollapsed}
+                  isCollapsed={false}
                   setIsSheetOpen={setIsSheetOpen}
                 />
               </nav>
@@ -349,23 +355,24 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                   {session?.user && (
                     <Image
                       src={session.user.image ?? ''}
+                      referrerPolicy="no-referrer"
                       alt={session.user.name ?? ''}
                       width={40}
                       height={40}
-                      className="rounded-full"
+                      className="shrink-0 rounded-full"
                     />
                   )}
-                  <div className="flex flex-col">
-                    <span className="font-medium text-sm">{session?.user.name}</span>
-                    <span className="text-muted-foreground text-xs">{session?.user.email}</span>
+                  <div className="flex min-w-0 flex-col">
+                    <span className="truncate font-medium text-sm">{session?.user.name}</span>
+                    <span className="truncate text-muted-foreground text-xs">{session?.user.email}</span>
                   </div>
                 </div>
 
                 <Separator />
 
-                <Button variant="outline" className="w-full" size="icon" onClick={handleSignOut}>
+                <Button variant="outline" size="sm" className="w-full text-sm" onClick={handleSignOut}>
                   <LogOut />
-                  Sair da sistema
+                  Sair do sistema
                 </Button>
               </SheetFooter>
             </SheetContent>
