@@ -47,7 +47,8 @@ export function DraggableScroll({ className, showArrows = false, children, ...pr
     const isMobile = window.innerWidth < 640
     // No mobile: usa a largura do primeiro card filho para rolar exatamente 1 item
     const firstChild = el.firstElementChild as HTMLElement | null
-    const cardWidth = isMobile && firstChild ? firstChild.offsetWidth + parseFloat(getComputedStyle(el).gap || '0') : SCROLL_AMOUNT
+    const cardWidth =
+      isMobile && firstChild ? firstChild.offsetWidth + parseFloat(getComputedStyle(el).gap || '0') : SCROLL_AMOUNT
     const amount = direction === 'left' ? -cardWidth : cardWidth
     el.scrollBy({ left: amount, behavior: 'smooth' })
   }, [])
@@ -129,7 +130,7 @@ export function DraggableScroll({ className, showArrows = false, children, ...pr
           <button
             type="button"
             onClick={() => scrollBy('left')}
-            className="-translate-y-1/2 -left-4 absolute top-1/2 z-10 hidden size-9 items-center justify-center rounded-full border border-primary/20 bg-background/90 text-primary shadow-md backdrop-blur-sm transition-all hover:scale-110 hover:bg-primary hover:text-primary-foreground sm:flex"
+            className="absolute top-1/2 -left-4 z-10 hidden size-9 -translate-y-1/2 items-center justify-center rounded-full border border-primary/20 bg-background/90 text-primary shadow-md backdrop-blur-sm transition-all hover:scale-110 hover:bg-primary hover:text-primary-foreground sm:flex"
             aria-label="Rolar para a esquerda"
           >
             <ChevronLeft className="size-5" />
@@ -159,7 +160,7 @@ export function DraggableScroll({ className, showArrows = false, children, ...pr
           <button
             type="button"
             onClick={() => scrollBy('right')}
-            className="-translate-y-1/2 -right-4 absolute top-1/2 z-10 hidden size-9 items-center justify-center rounded-full border border-primary/20 bg-background/90 text-primary shadow-md backdrop-blur-sm transition-all hover:scale-110 hover:bg-primary hover:text-primary-foreground sm:flex"
+            className="absolute top-1/2 -right-4 z-10 hidden size-9 -translate-y-1/2 items-center justify-center rounded-full border border-primary/20 bg-background/90 text-primary shadow-md backdrop-blur-sm transition-all hover:scale-110 hover:bg-primary hover:text-primary-foreground sm:flex"
             aria-label="Rolar para a direita"
           >
             <ChevronRight className="size-5" />

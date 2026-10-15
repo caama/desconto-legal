@@ -12,7 +12,7 @@ export function SocialTooltip({ children, link, label }: SocialTooltipProps) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="hover:-translate-y-1 text-center transition-all duration-300 hover:shadow-2xl">
+        <div className="text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
           <Button size="icon-sm" variant="ghost" className="hover:bg-transparent">
             <Link href={link} target="_blank" className="text-primary">
               {children}

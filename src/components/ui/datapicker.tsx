@@ -119,7 +119,7 @@ export function DatePicker({ date, setDate, label, className, onInvalidChange }:
               type="button"
               variant="ghost"
               size="icon-sm"
-              className="-translate-y-1/2 absolute top-1/2 right-9"
+              className="absolute top-1/2 right-9 -translate-y-1/2"
               aria-label={label === 'start' ? 'Limpar data de início' : 'Limpar data de término'}
               onPointerDown={event => {
                 event.preventDefault()
@@ -135,7 +135,7 @@ export function DatePicker({ date, setDate, label, className, onInvalidChange }:
               type="button"
               variant="ghost"
               size="icon-sm"
-              className="-translate-y-1/2 absolute top-1/2 right-1"
+              className="absolute top-1/2 right-1 -translate-y-1/2"
               aria-label={label === 'start' ? 'Selecionar data de início' : 'Selecionar data de término'}
             >
               <CalendarDays className="size-4" />

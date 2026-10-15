@@ -69,7 +69,7 @@ export function CompanyListClient({ companies, categories, isLoading }: CompanyL
             value={inputValue}
             onChange={({ target }) => setInputValue(target.value)}
           />
-          <Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground transition-all duration-200 peer-focus:text-primary" />
+          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-all duration-200 peer-focus:text-primary" />
         </div>
 
         <div>

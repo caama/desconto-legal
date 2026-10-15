@@ -13,7 +13,7 @@ interface CompanyCardProps {
 export function CompanyCard({ company }: CompanyCardProps) {
   return (
     <Link href={`/city/${company.city.slug}/companies/${company.slug}/details`}>
-      <Card className="group hover:-translate-y-1.25 flex h-full flex-col overflow-hidden border-slate-200/80 bg-white p-0 transition-all duration-300 hover:border-primary hover:shadow-lg">
+      <Card className="group flex h-full flex-col overflow-hidden border-slate-200/80 bg-white p-0 transition-all duration-300 hover:-translate-y-1.25 hover:border-primary hover:shadow-lg">
         <div className="relative flex min-h-[14px] items-center justify-center border-slate-100 border-b bg-white px-5 py-5 sm:min-h-[14px] sm:px-6 sm:py-6">
           {company.logoUrl ? (
             <Image
