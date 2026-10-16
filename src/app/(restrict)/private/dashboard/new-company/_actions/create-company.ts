@@ -127,6 +127,7 @@ export async function createCompany(data: NewCompanyFormType) {
         contractStart: rest.contractStart ?? null,
         contractEnd: rest.contractEnd ?? null,
         cnpj: document,
+        createdById: session.user.id,
       },
     })
 

@@ -3,6 +3,10 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
+  // public/ não entra no pacote das funções na Vercel: a logo dos relatórios precisa ir junto
+  outputFileTracingIncludes: {
+    '/api/reports/**': ['./public/assets/logo-caama.png'],
+  },
   images: {
     remotePatterns: [
       {

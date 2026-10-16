@@ -19,6 +19,7 @@ import { getCompanyFullAddress } from '@/utils/get-company-full-address'
 import { CopyAddress } from './_components/copy-address'
 import { MobileCtaBar } from './_components/mobile-cta-bar'
 import { QuickActions } from './_components/quick-actions'
+import { TrackCompanyView } from './_components/track-company-view'
 
 type CompanyDetailsPageProps = {
   params: Promise<{
@@ -368,6 +369,8 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
       </main>
 
       <MobileCtaBar companyId={company.id} companyName={company.name} whatsapp={company.whatsapp} discount={company.discount} />
+
+      <TrackCompanyView companyId={company.id} />
     </div>
   )
 }

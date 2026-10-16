@@ -2,8 +2,10 @@
 
 import {
   Building2,
+  ChartColumn,
   CirclePlus,
   CircleUser,
+  FileText,
   Layers,
   LogOut,
   MapPinHouse,
@@ -43,6 +45,8 @@ const NAV_SECTIONS: { title: string; items: NavItem[] }[] = [
   {
     title: 'Administrativo',
     items: [
+      { href: '/private/dashboard/metrics', label: 'Métricas', icon: <ChartColumn />, adminOnly: true },
+      { href: '/private/dashboard/reports', label: 'Relatórios', icon: <FileText />, adminOnly: true },
       { href: '/private/dashboard/category', label: 'Categorias', icon: <Layers />, adminOnly: true },
       { href: '/private/dashboard/city', label: 'Cidades', icon: <MapPinHouse />, adminOnly: true },
       { href: '/private/dashboard/users', label: 'Usuários', icon: <Users />, adminOnly: true },
