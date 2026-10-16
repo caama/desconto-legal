@@ -1,6 +1,7 @@
 'use server'
 
 import { z } from 'zod'
+import { incrementCompanyDailyStat } from '@/lib/company-daily-stat'
 import { prisma } from '@/lib/prisma'
 
 type AddVisitorInCompanyProps = {
@@ -30,7 +31,8 @@ export async function addVisitorInCompany({ companyId }: AddVisitorInCompanyProp
     },
   })
 
-  if (!company) {
+  // Empresa inativa não aparece no site: um clique que chegue para ela não conta
+  if (!company || !company.active) {
     return {
       status: 404,
       error: 'Empresa não encontrada',
@@ -48,6 +50,13 @@ export async function addVisitorInCompany({ companyId }: AddVisitorInCompanyProp
       },
     },
   })
+
+  // Contato do dia, para as métricas por período; o total acima segue alimentando o destaque
+  try {
+    await incrementCompanyDailyStat(companyId, 'whatsappClicks')
+  } catch (error) {
+    console.error('Erro ao registrar contato diário da empresa', error)
+  }
 
   // Verificar se a empresa deve ser destacada
   if (company.visitors && company.visitors >= 20 && !company.featured) {

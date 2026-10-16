@@ -26,6 +26,9 @@ model User {
   // Optional for WebAuthn support
   Authenticator Authenticator[]
 
+  // Empresas que o usuário cadastrou pelo painel
+  createdCompanies Company[]
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -163,8 +166,32 @@ model Company {
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @map("category_id")
 
+  // Quem cadastrou (nulo nas empresas anteriores ao registro de autoria)
+  createdBy   User?   @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdById String? @map("created_by_id")
+
+  dailyStats CompanyDailyStat[]
+
   @@index([cityId])
   @@index([categoryId])
   @@index([active])
+  @@index([createdById])
   @@map("companies")
+}
+
+// Procura agregada por dia (data civil em America/Sao_Paulo)
+model CompanyDailyStat {
+  id             String   @id @default(cuid())
+  date           DateTime @db.Date
+  views          Int      @default(0) // Aberturas da página de detalhes
+  whatsappClicks Int      @default(0) @map("whatsapp_clicks") // Cliques no WhatsApp
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String  @map("company_id")
+
+  @@unique([companyId, date])
+  @@index([date])
+  @@map("company_daily_stats")
 }
