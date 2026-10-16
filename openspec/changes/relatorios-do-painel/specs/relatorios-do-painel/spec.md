@@ -34,11 +34,11 @@ A página MUST mostrar o resumo do relatório e uma prévia da tabela com até 5
 - **THEN** a prévia explica que não há dados para o recorte e os botões de exportação ficam desabilitados
 
 ### Requirement: Relatório de empresas conveniadas
-O relatório MUST listar as empresas filtradas por subseção, categoria, situação (padrão: ativas) e, opcionalmente, ano de cadastro, ordenadas por subseção e nome. Cada linha MUST trazer empresa, CNPJ, subseção, categoria, desconto, responsável, WhatsApp, e-mail, início e fim do contrato, situação do contrato, situação da empresa, contatos acumulados, data de cadastro e quem cadastrou.
+O relatório MUST listar as empresas filtradas por subseção, categoria, situação (padrão: ativas) e, opcionalmente, ano de cadastro, ordenadas por subseção e nome. Cada linha MUST trazer empresa, CNPJ, subseção, categoria, desconto, responsável, WhatsApp, e-mail, início e fim do contrato, situação do contrato, situação da empresa, contatos acumulados e data de cadastro.
 
-#### Scenario: Empresa sem autor registrado
-- **WHEN** a empresa foi cadastrada antes do registro de autoria
-- **THEN** a coluna "Cadastrada por" mostra "Sem registro"
+#### Scenario: Filtro por ano de cadastro
+- **WHEN** o administrador escolhe "Ano de cadastro: 2026"
+- **THEN** só entram as empresas cadastradas em 2026 no horário de Brasília
 
 ### Requirement: Relatório de contratos
 O relatório MUST listar empresas ativas conforme a janela escolhida: vencidos, vencidos e a vencer em até 30, 60, 90 (padrão) ou 180 dias, ou sem data de fim. Para as janelas com data, MUST ordenar pela data de fim. Cada linha MUST trazer empresa, CNPJ, subseção, categoria, responsável, WhatsApp, início, fim, situação (vencido há N dias, vence hoje ou faltam N dias) e contatos acumulados.

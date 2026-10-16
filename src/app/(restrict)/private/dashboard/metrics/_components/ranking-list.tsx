@@ -1,9 +1,8 @@
-import type { ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 import { formatCount, type RankedItem } from '../_data/metrics-view'
 
 type RankingListProps = {
-  items: (RankedItem & { leading?: ReactNode })[]
+  items: RankedItem[]
   emptyMessage: string
 }
 
@@ -22,7 +21,6 @@ export function RankingList({ items, emptyMessage }: RankingListProps) {
           <li key={item.id} className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between gap-3">
               <span className="flex min-w-0 items-center gap-2">
-                {item.leading}
                 <span
                   className={cn(
                     'truncate font-medium text-sm',

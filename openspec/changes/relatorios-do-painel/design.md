@@ -37,4 +37,4 @@ Sem migration. Deploy depois (ou junto) de `painel-de-metricas`: homologação p
 
 ## Open Questions
 
-- Incluir no futuro um relatório de cadastros por usuário com detalhamento por mês, se a gestão pedir além da coluna "Cadastrada por".
+- Nenhuma. Informação de quem cadastrou cada empresa fica fora dos relatórios a pedido da gestão (o dado continua gravado em `companies.created_by_id`).

@@ -24,8 +24,7 @@
 - [x] 4.4 Empresas por subseção e por categoria, matriz de cobertura e subseções sem empresa
 - [x] 4.5 Tabela de contratos a vencer e contagem sem data de fim
 - [x] 4.6 Top 5 (no ano / desde o início), procura por mês com conversão e empresas sem procura
-- [x] 4.7 Ranking de cadastradores
-- [x] 4.8 Item "Métricas" na sidebar (Administrativo, só `ADMIN`)
+- [x] 4.7 Item "Métricas" na sidebar (Administrativo, só `ADMIN`)
 
 ## 5. Verificação local
 
@@ -36,4 +35,4 @@
 ## 6. Deploy
 
 - [ ] 6.1 Push para homologação (`homo dev` → `homo main`) e conferir no build da Vercel que a migration foi aplicada
-- [ ] 6.2 Validar em https://descontolegal-dev.caama.org.br/ (página de métricas, visita, contato, cadastro com autor) antes de qualquer push para produção
+- [ ] 6.2 Validar em https://descontolegal-dev.caama.org.br/ (página de métricas, visita e contato) antes de qualquer push para produção

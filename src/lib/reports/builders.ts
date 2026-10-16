@@ -80,7 +80,6 @@ function scopeWhere(context: ReportContext): Prisma.CompanyWhereInput {
 const companyInclude = {
   city: { select: { name: true } },
   category: { select: { name: true } },
-  createdBy: { select: { name: true } },
 } satisfies Prisma.CompanyInclude
 
 const reportInfo = (id: ReportId) => REPORTS.find(report => report.id === id) as (typeof REPORTS)[number]
@@ -111,7 +110,6 @@ async function buildCompaniesReport(filters: ReportFilters, context: ReportConte
     { key: 'status', header: 'Status', type: 'text', pdfWidth: 0.8, xlsxWidth: 10, pdf: filters.situacao === 'todas' },
     { key: 'visitors', header: 'Contatos', type: 'number', pdfWidth: 0.8, xlsxWidth: 10 },
     { key: 'createdAt', header: 'Cadastrada em', type: 'date', pdfWidth: 1, xlsxWidth: 14, pdf: false },
-    { key: 'createdBy', header: 'Cadastrada por', type: 'text', pdfWidth: 1.4, xlsxWidth: 24, pdf: false },
   ]
 
   const rows: ReportRow[] = companies.map(company => ({
@@ -129,7 +127,6 @@ async function buildCompaniesReport(filters: ReportFilters, context: ReportConte
     status: company.active ? 'Ativa' : 'Inativa',
     visitors: company.visitors,
     createdAt: toDay(company.createdAt),
-    createdBy: company.createdBy?.name ?? 'Sem registro',
   }))
 
   const active = companies.filter(company => company.active)

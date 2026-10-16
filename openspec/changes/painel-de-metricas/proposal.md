@@ -1,6 +1,6 @@
 ## Why
 
-O painel só lista empresas: para saber quantos convênios a CAAMA tem por subseção, quais contratos vão vencer ou quais empresas os advogados de fato procuram, é preciso contar à mão. Além disso, dois dados que a gestão quer acompanhar não existem hoje: quem cadastrou cada empresa e quando a procura aconteceu (o contador `visitors` é um total acumulado, sem data, e só sobe no clique do WhatsApp).
+O painel só lista empresas: para saber quantos convênios a CAAMA tem por subseção, quais contratos vão vencer ou quais empresas os advogados de fato procuram, é preciso contar à mão. Além disso, não se sabe quando a procura aconteceu: o contador `visitors` é um total acumulado, sem data, e só sobe no clique do WhatsApp.
 
 ## What Changes
 
@@ -10,9 +10,8 @@ O painel só lista empresas: para saber quantos convênios a CAAMA tem por subse
 - **Distribuição e cobertura**: empresas ativas por subseção, por categoria e matriz subseção × categoria, evidenciando subseções sem empresa ativa e categorias ausentes.
 - **Contratos**: tabela de contratos vencidos e a vencer em até 90 dias, com a procura de cada empresa ao lado, e contagem de empresas ativas sem data de fim de contrato.
 - **Demanda**: top 5 empresas mais procuradas (geral ou da subseção filtrada), no ano e desde o início; procura por mês (visitas e contatos) e taxa de conversão; empresas ativas sem nenhum contato.
-- **Equipe**: ranking de quem mais cadastrou empresas no ano.
 - **Rastreamento**: a abertura da página de detalhes da empresa passa a contar como **visita** e o clique no WhatsApp como **contato**, agregados por dia. O contador `visitors` e a regra de destaque automático continuam como estão.
-- **Autoria**: o cadastro de empresa passa a gravar o usuário que criou.
+- **Autoria**: o cadastro de empresa passa a gravar o usuário que criou. O dado fica registrado e não é exibido na tela nem nos relatórios (o ranking de cadastradores foi retirado do escopo a pedido da gestão).
 
 ## Capabilities
 
