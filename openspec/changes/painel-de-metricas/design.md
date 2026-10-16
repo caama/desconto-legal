@@ -9,10 +9,11 @@ O volume é pequeno: centenas de empresas, dezenas de cidades e categorias.
 ## Goals / Non-Goals
 
 **Goals:**
-- Responder às perguntas da gestão (crescimento, cobertura, contratos, demanda, equipe) numa única tela restrita a `ADMIN`.
+- Responder às perguntas da gestão (crescimento, cobertura, contratos e demanda) numa única tela restrita a `ADMIN`.
 - Passar a coletar procura por dia e autoria do cadastro, sem mudar o comportamento atual de `visitors` e do destaque automático.
 
 **Non-Goals:**
+- Exibir quem cadastrou cada empresa: o autor é gravado, mas o ranking de cadastradores saiu do escopo.
 - Exportar as métricas (CSV/PDF).
 - Reconstruir procura passada: o histórico diário começa no deploy.
 - Métricas de visitas na home ou na listagem por cidade.
@@ -21,7 +22,7 @@ O volume é pequeno: centenas de empresas, dezenas de cidades e categorias.
 ## Decisions
 
 - **Página como Server Component que lê `searchParams` e chama um DAL** (`metrics/_dal/get-metrics.ts`). Os componentes de gráfico são clientes, porque o recharts precisa de DOM, e recebem dados já agregados. Alternativa considerada: rota de API + TanStack Query, como nas listagens. Foi descartada porque não há interação além dos filtros, que já são navegação: o servidor entrega pronto e o `Suspense` com `key` nos filtros mostra o skeleton na troca.
-- **Agregar em TypeScript, não em SQL**. O DAL faz poucas consultas enxutas (empresas com `select` mínimo, cidades, categorias, usuários autores e registros diários do ano) e um módulo puro `_data/metrics-view.ts` monta as séries. Com centenas de linhas, o custo é desprezível, o código fica tipado e testável à mão, e evita `$queryRaw` com `date_trunc`/fuso. Se o volume crescer muito, as séries mensais podem passar para `groupBy`/SQL sem mudar a interface.
+- **Agregar em TypeScript, não em SQL**. O DAL faz poucas consultas enxutas (empresas com `select` mínimo, cidades, categorias e registros diários do ano) e um módulo puro `_data/metrics-view.ts` monta as séries. Com centenas de linhas, o custo é desprezível, o código fica tipado e testável à mão, e evita `$queryRaw` com `date_trunc`/fuso. Se o volume crescer muito, as séries mensais podem passar para `groupBy`/SQL sem mudar a interface.
 - **Fuso `America/Sao_Paulo` explícito**. Datas de cadastro e o dia dos registros são convertidos com `Intl.DateTimeFormat` com `timeZone`. A Vercel roda em UTC, e sem isso uma empresa cadastrada às 22h de 31/12 cairia no ano seguinte.
 - **Agregado diário (`CompanyDailyStat`) em vez de tabela de eventos.** Uma linha por empresa por dia com `views` e `whatsappClicks`, gravada com `upsert` + `increment` sobre a chave única `(companyId, date)`. `date` é `@db.Date`. Alternativa considerada: um evento por clique, com mais detalhe (hora, origem). Foi descartada porque cresce sem limite e nada na tela usa granularidade menor que o dia.
 - **Visita registrada no navegador**: um componente cliente na página de detalhes chama a server action `registerCompanyView` uma vez por montagem e marca `sessionStorage` (`dl:view:<companyId>`). Robôs de prévia de link (WhatsApp, buscadores) não executam JS e não contam, recarregar não infla o número, e o prefetch do Next não dispara. O `try/catch` no `sessionStorage` cobre navegação privada: sem armazenamento, a visita conta a cada abertura, o que é aceitável.

@@ -6,7 +6,7 @@ A tela de Métricas responde perguntas na tela, mas a gestão da CAAMA precisa l
 
 - Nova rota **`/private/dashboard/reports`** ("Relatórios" na sidebar, seção Administrativo), restrita a `ADMIN`, com prévia na tela e exportação em **PDF** e **Excel (.xlsx)**.
 - Quatro relatórios, com os filtros na URL:
-  - **Empresas conveniadas**: subseção, categoria, situação (ativas, inativas ou todas) e ano de cadastro opcional. Traz contato, desconto, vigência do contrato, contatos acumulados, data de cadastro e quem cadastrou.
+  - **Empresas conveniadas**: subseção, categoria, situação (ativas, inativas ou todas) e ano de cadastro opcional. Traz contato, desconto, vigência do contrato, contatos acumulados e data de cadastro.
   - **Contratos**: subseção e janela (vencidos, até 30/60/90/180 dias ou sem data de fim), só de empresas ativas, com a situação do contrato e a procura.
   - **Procura por empresa**: ano, mês opcional, subseção e categoria. Traz visitas, contatos, conversão no período e contatos acumulados.
   - **Resumo por subseção**: ano. Traz ativas, inativas, cadastradas no ano, contratos vencidos e a vencer, sem data de fim, procura do ano e, no Excel, empresas ativas por categoria.

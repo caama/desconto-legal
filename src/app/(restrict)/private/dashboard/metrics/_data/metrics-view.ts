@@ -72,12 +72,10 @@ export type MetricsCompanyRow = {
   visitors: number
   cityId: string
   categoryId: string
-  createdById: string | null
 }
 
 export type MetricsCityRow = { id: string; name: string; slug: string; active: boolean }
 export type MetricsCategoryRow = { id: string; name: string; active: boolean }
-export type MetricsUserRow = { id: string; name: string | null; image: string | null }
 export type MetricsDailyStatRow = { companyId: string; date: Date; views: number; whatsappClicks: number }
 
 export type MetricsInput = {
@@ -87,7 +85,6 @@ export type MetricsInput = {
   companies: MetricsCompanyRow[]
   cities: MetricsCityRow[]
   categories: MetricsCategoryRow[]
-  users: MetricsUserRow[]
   // Registros diários do ano selecionado, de todas as subseções
   dailyStats: MetricsDailyStatRow[]
   firstStatDate: Date | null
@@ -133,8 +130,6 @@ export type TopCompany = CompanyLink & {
 
 export type WithoutDemandRow = CompanyLink & { createdAt: string }
 
-export type CreatorRow = RankedItem & { image: string | null }
-
 export type CoverageMatrix = {
   categories: { id: string; name: string }[]
   rows: { id: string; name: string; total: number; cells: number[]; highlighted: boolean }[]
@@ -170,7 +165,7 @@ function buildMonthSeries(counts: number[], year: number, today: { year: number;
 }
 
 export function buildMetrics(input: MetricsInput) {
-  const { now, year, selectedCityId, companies, cities, categories, users, dailyStats, firstStatDate } = input
+  const { now, year, selectedCityId, companies, cities, categories, dailyStats, firstStatDate } = input
 
   const today = getSaoPauloDateParts(now)
   const todayDay = getSaoPauloDay(now)
@@ -353,31 +348,6 @@ export function buildMetrics(input: MetricsInput) {
     .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
     .map(company => ({ ...toLink(company), createdAt: company.createdAt.toISOString() }))
 
-  // Equipe: quem cadastrou no ano
-  const userById = new Map(users.map(user => [user.id, user]))
-  const creatorCounts = new Map<string | null, number>()
-
-  for (const company of scoped) {
-    if (createdYear(company) !== year) continue
-    creatorCounts.set(company.createdById, (creatorCounts.get(company.createdById) ?? 0) + 1)
-  }
-
-  const rankedCreators = rank(
-    [...creatorCounts.entries()]
-      .map(([userId, total]) => ({
-        id: userId ?? 'sem-registro',
-        name: userId ? (userById.get(userId)?.name ?? 'Usuário removido') : 'Sem registro',
-        total,
-      }))
-      // "Sem registro" vai para o fim: não é uma pessoa disputando posição
-      .sort((a, b) => Number(a.id === 'sem-registro') - Number(b.id === 'sem-registro') || byTotalThenName(a, b))
-  )
-
-  const creators: CreatorRow[] = rankedCreators.map(creator => ({
-    ...creator,
-    image: userById.get(creator.id)?.image ?? null,
-  }))
-
   return {
     kpis,
     byYear,
@@ -398,7 +368,6 @@ export function buildMetrics(input: MetricsInput) {
     topInYear,
     topAllTime,
     withoutDemand,
-    creators,
   }
 }
 

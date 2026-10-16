@@ -27,7 +27,7 @@ A página MUST oferecer filtro de ano (padrão: ano corrente) e de subseção (p
 - **THEN** lista do ano do primeiro cadastro de empresa até o ano corrente
 
 ### Requirement: Escopo de cada filtro
-O filtro de subseção MUST se aplicar a todos os painéis, exceto "Empresas por subseção" e à matriz de cobertura, que comparam subseções entre si e MUST destacar a subseção selecionada. O filtro de ano MUST se aplicar apenas a: novas no ano, cadastros por mês, procura por mês, conversão, top 5 "no ano" e ranking de cadastradores. Os demais painéis MUST refletir a situação atual.
+O filtro de subseção MUST se aplicar a todos os painéis, exceto "Empresas por subseção" e à matriz de cobertura, que comparam subseções entre si e MUST destacar a subseção selecionada. O filtro de ano MUST se aplicar apenas a: novas no ano, cadastros por mês, procura por mês, conversão e top 5 "no ano". Os demais painéis MUST refletir a situação atual.
 
 #### Scenario: Subseção filtrada no gráfico por subseção
 - **WHEN** a subseção "Imperatriz" está selecionada
@@ -89,10 +89,3 @@ A página MUST listar as empresas ativas cadastradas há mais de 30 dias que nun
 #### Scenario: Empresa recém-cadastrada
 - **WHEN** uma empresa ativa sem contatos foi cadastrada há 10 dias
 - **THEN** ela não aparece na lista de empresas sem procura
-
-### Requirement: Ranking de cadastradores
-A página MUST exibir os usuários que mais cadastraram empresas no ano selecionado. Empresas sem autor registrado MUST ser agrupadas como "Sem registro".
-
-#### Scenario: Empresas antigas
-- **WHEN** empresas cadastradas antes da coleta de autoria entram no ano selecionado
-- **THEN** são contadas em "Sem registro", não atribuídas a nenhum usuário

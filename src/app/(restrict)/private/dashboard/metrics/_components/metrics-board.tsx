@@ -8,7 +8,7 @@ import { CoverageCard } from './coverage-card'
 import { DemandCard } from './demand-card'
 import { MetricKpiCard } from './metric-kpi-card'
 import { MetricsFilters } from './metrics-filters'
-import { CreatorsCard, RankingCard } from './ranking-card'
+import { RankingCard } from './ranking-card'
 import { SeriesCard } from './series-card'
 import { TopCompaniesCard } from './top-companies-card'
 import { WithoutDemandCard } from './without-demand-card'
@@ -122,10 +122,7 @@ export async function MetricsBoard({ year, citySlug }: MetricsBoardProps) {
 
       <CoverageCard coverage={metrics.coverage} citiesWithoutCompanies={metrics.citiesWithoutCompanies} />
 
-      <div className="grid gap-5 lg:grid-cols-2">
-        <WithoutDemandCard companies={metrics.withoutDemand} />
-        <CreatorsCard creators={metrics.creators} year={filters.year} />
-      </div>
+      <WithoutDemandCard companies={metrics.withoutDemand} />
     </div>
   )
 }

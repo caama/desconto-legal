@@ -20,7 +20,7 @@ export async function getMetrics({ year, citySlug }: GetMetricsProps) {
   const now = new Date()
 
   // Volume pequeno (centenas de empresas): buscar o mínimo e agregar em TypeScript sai mais simples que SQL com fuso
-  const [companies, cities, categories, users, firstStat] = await Promise.all([
+  const [companies, cities, categories, firstStat] = await Promise.all([
     prisma.company.findMany({
       select: {
         id: true,
@@ -32,7 +32,6 @@ export async function getMetrics({ year, citySlug }: GetMetricsProps) {
         visitors: true,
         cityId: true,
         categoryId: true,
-        createdById: true,
       },
     }),
     prisma.city.findMany({
@@ -40,7 +39,6 @@ export async function getMetrics({ year, citySlug }: GetMetricsProps) {
       orderBy: { name: 'asc' },
     }),
     prisma.category.findMany({ select: { id: true, name: true, active: true } }),
-    prisma.user.findMany({ select: { id: true, name: true, image: true } }),
     prisma.companyDailyStat.findFirst({ select: { date: true }, orderBy: { date: 'asc' } }),
   ])
 
@@ -74,7 +72,6 @@ export async function getMetrics({ year, citySlug }: GetMetricsProps) {
     companies,
     cities,
     categories,
-    users,
     dailyStats,
     firstStatDate: firstStat?.date ?? null,
   })
