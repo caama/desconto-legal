@@ -2,29 +2,37 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import type { CSSProperties } from 'react'
+
+// Recortes em semicírculo na borda superior, feitos como máscara (furos reais, sem pintar por cima do fundo).
+// O raio (--scallop-r) é um valor inteiro em px por breakpoint e os ladrilhos partem da esquerda, para tudo cair em
+// pixel inteiro. A seção mascarada fica parada: só o conteúdo anima, senão a máscara é redesenhada a cada quadro.
+const scallopMask = {
+  maskImage:
+    'radial-gradient(circle at 50% 0, transparent var(--scallop-r), #000 calc(var(--scallop-r) + 0.5px)), linear-gradient(#000, #000)',
+  maskSize: 'calc(var(--scallop-r) * 3) var(--scallop-r), 100% 100%',
+  maskPosition: 'left top, left calc(var(--scallop-r) - 1px)',
+  maskRepeat: 'repeat-x, no-repeat',
+} satisfies CSSProperties
 
 export function BrandingBanner() {
   return (
-    <motion.section
-      className="relative w-full bg-[#22254c] text-white"
-      initial={{ opacity: 0, y: 28, scale: 0.985 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+    <section
+      className="relative w-full bg-[#22254c] text-white [--scallop-r:12px] sm:[--scallop-r:16px] md:[--scallop-r:20px] lg:[--scallop-r:24px] xl:[--scallop-r:28px]"
+      style={{
+        ...scallopMask,
+        WebkitMaskImage: scallopMask.maskImage,
+        WebkitMaskSize: scallopMask.maskSize,
+        WebkitMaskPosition: scallopMask.maskPosition,
+        WebkitMaskRepeat: scallopMask.maskRepeat,
+      }}
     >
-      {/* Recortes em semicírculo na borda superior */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-(--scallop-r) [--scallop-gap:calc(var(--scallop-r)*3)] [--scallop-r:clamp(0.75rem,1.8vw,1.75rem)]"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle at 50% 0, var(--background) var(--scallop-r), transparent calc(var(--scallop-r) + 0.5px))',
-          backgroundSize: 'var(--scallop-gap) var(--scallop-r)',
-          backgroundPosition: 'center top',
-          backgroundRepeat: 'repeat-x',
-        }}
-      />
-
-      <div className="container mx-auto grid max-w-6xl items-center gap-8 px-6 pt-16 pb-12 sm:pt-20 md:grid-cols-2 md:gap-12 md:py-24 lg:px-8">
+      <motion.div
+        className="container mx-auto grid max-w-6xl items-center gap-8 px-6 pt-16 pb-12 sm:pt-20 md:grid-cols-2 md:gap-12 md:py-24 lg:px-8"
+        initial={{ opacity: 0, y: 28 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+      >
         <div className="flex justify-center md:justify-start">
           <Image
             src="/assets/logo-desconto-legal.png"
@@ -48,7 +56,7 @@ export function BrandingBanner() {
             especiais pensadas para valorizar a advocacia dentro e fora do ambiente profissional.
           </p>
         </div>
-      </div>
-    </motion.section>
+      </motion.div>
+    </section>
   )
 }
